@@ -1,0 +1,80 @@
+ServerSignature Off
+RewriteEngine On
+#RewriteCond %{SERVER_PORT} 3333
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+#TrangChu
+RewriteRule ^([a-zA-Z0-9-/]+).php/$ prob-page-dtls_post.php [QSA,L]
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule ^/$ /index.php [L]
+RewriteRule ^home$ /home.php [L]
+RewriteRule ^api/login$ /apphackchongddos/@momo/login.php  [L]
+RewriteRule ^adm/momo/add$ /ADMIN/@momo.php [L]
+RewriteRule ^adm/service/website$ /ADMIN/website.php [L]
+RewriteRule ^adm/service/msg$ /ADMIN/msg.php [L]
+RewriteRule ^adm/mini-game/chan-le$ /ADMIN/chan-le.php [L]
+RewriteRule ^adm/mini-game/tai-xiu$ /ADMIN/tai-xiu.php [L]
+RewriteRule ^adm/mini-game/chan-le2$ /ADMIN/chan-le2.php [L]
+RewriteRule ^adm/mini-game/tai-xiu2$ /ADMIN/tai-xiu2.php [L]
+RewriteRule ^adm/mini-game/1-phan-3$ /ADMIN/1-phan-3.php [L]
+RewriteRule ^adm/mini-game/H3$ /ADMIN/H3.php [L]
+RewriteRule ^adm/mini-game/doan-so$ /ADMIN/doan-so.php [L]
+RewriteRule ^adm/mini-game/xien$ /ADMIN/xien.php [L]
+RewriteRule ^adm/mini-game/lo$ /ADMIN/lo.php [L]
+RewriteRule ^adm/mini-game/g3$ /ADMIN/g3.php [L]
+RewriteRule ^adm/mini-game/diem-danh$ /ADMIN/diem-danh.php [L]
+RewriteRule ^adm/mini-game/nhiem-vu-ngay$ /ADMIN/nhiem-vu-ngay.php [L]
+RewriteRule ^adm/mini-game/tong-3-so$ /ADMIN/tong-3-so.php [L]
+RewriteRule ^adm/mini-game/top-tuan$ /ADMIN/top-tuan.php [L]
+RewriteRule ^adm/service/giftcode$ /ADMIN/giftcode.php [L]
+RewriteRule ^adm/momo/list$ /ADMIN/list-momo.php [L]
+RewriteRule ^adm/service/theme$ /ADMIN/theme.php [L]
+RewriteRule ^adm/setting/action$ /apphackchongddos/backend.php [L]
+RewriteRule ^adm/mini-game/update$ /apphackchongddos/backend.php [L]
+RewriteRule ^service$ /ADMIN/index.php [L]
+RewriteRule ^adm/login/action$ /apphackchongddos/backend.php [L]
+RewriteRule ^adm/login$ /ADMIN/login.php [L]
+RewriteRule ^adm/dang-xuat$ /apphackchongddos/out_log.php [L]
+RewriteRule ^adm/momo/history-transaction$ /ADMIN/history-transaction.php [L]
+RewriteRule ^adm/momo/send-money$ /ADMIN/send-money.php [L]
+RewriteRule ^api/giaodien/check$ /apphackchongddos/check.php [L]
+RewriteRule ^adm/service/history$ /ADMIN/history.php [L]
+RewriteRule ^adm/service/check-bill$ /ADMIN/check-bill.php [L]
+RewriteRule ^adm/service/payment$ /ADMIN/payment.php [L]
+RewriteRule ^adm/service/doi-mat-khau$ /ADMIN/doi-mat-khau.php [L]
+RewriteRule ^api/e/chuyentien$ /apphackchongddos/@momo/send.php [L]
+RewriteRule ^adm/service/sdt-game$ /ADMIN/sdt-game.php [L]
+RewriteRule ^adm/service/bill-error$ /ADMIN/bill-error.php [L]
+RewriteRule ^adm/home$ /ADMIN/index.php [L]
+RewriteRule ^api/giaodien/GetMomo /apphackchongddos/GetMoMo.php [L]
+RewriteRule ^api/giaodien/GetLsgd_10s /apphackchongddos/GetLsgd_10s.php [L]
+RewriteRule ^api/giaodien/Get_diemdanh /apphackchongddos/Get_diemdanh.php [L]
+
+RewriteRule ^adm/service/cron$ /ADMIN/cron.php [L]
+RewriteRule ^adm/bill-loi$ /apphackchongddos/@momo/error_.php [L]
+
+RewriteRule ^api/giftcode$ /apphackchongddos/@momo/giftcode.php [L]
+
+RewriteRule ^api/nhiemvungay$ /apphackchongddos/@momo/nvn.php [L]
+RewriteRule ^api/diemdanh$ /apphackchongddos/@momo/diemdanh.php [L]
+
+RewriteRule ^tt$ /apphackchongddos/@momo/api.php [L]
+RewriteRule ^login$ /apphackchongddos/@momo/load-token.php [L]
+RewriteRule ^diem-danh$ /apphackchongddos/@momo/cron_diemdanh.php [L]
+RewriteRule ^xoa-gd$ /apphackchongddos/@momo/xoa_gd.php [L]
+RewriteRule ^bill-loi$ /apphackchongddos/@momo/cron_bill_loi.php [L]
+RewriteRule ^reset-cron$ /apphackchongddos/@momo/reset_cron.php [L]
+RewriteRule ^cron-fake$ /apphackchongddos/@momo/cron_fake.php [L]
+#ErrorDocument 404 /404.php
+
+#BLOCKBOT
+
+#RewriteRule ^.* - [F,L]
+
+# Bảo vệ file .htaccess
+<files .htaccess>
+order allow,deny
+deny from all
+</files>
