@@ -96,6 +96,10 @@ if ($getlist_momo)
 
                                     $result_pay = $momo->LoadData($rows['phone'])->SendMoney($partnerID, $tien_nhan, $msg_send,$requestkeyRaw,$requestkey);
                                     $data_send = $result_pay["full"];
+                                    if(!$result_pay["full"]){
+                                        print_r($result_pay);
+                                        //die('lỗi');
+                                    }
 
                                     if ($result_pay["status"] == "success")
                                     {

@@ -2496,7 +2496,7 @@ select[multiple].input-lg {
     border: 1px solid transparent;
     white-space: nowrap;
     padding: 6px 13px;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.42857143;
     border-radius: 4px;
     -webkit-user-select: none;
@@ -2582,8 +2582,8 @@ fieldset[disabled] .btn-default.active {
 
 .btn-primary {
     color: #fff;
-    background-color: #ad4105;
-    border-color: #357ebd
+    /* background-color: #ad4105; */
+    border-color: #000000
 }
 
 .btn-primary:hover,
@@ -2591,8 +2591,8 @@ fieldset[disabled] .btn-default.active {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-    color: #fff;
-    background-color: #3276b1;
+    color: rgb(0, 0, 0);
+    /* background-color: #3276b1; */
     border-color: #285e8e
 }
 

@@ -111,8 +111,8 @@ class MOMO
 
     );
     private $momo_data_config = array(
-        "appVer" => 31150,
-        "appCode" => "3.1.16"
+        "appVer" => 31170,
+        "appCode" => "3.1.17"
         
         );
 
@@ -646,6 +646,10 @@ class MOMO
         }
 
         $result = $this->CHECK_USER_PRIVATE($receiver,$requestkeyRaw,$requestkey);
+        // echo "<pre>";
+        // print('-----CHECK_USER_PRIVATE-----');
+        // print_r($result);
+        // echo "<pre>";
         if(!empty($result["errorCode"]) ){
             return array(
                 "status" => "error",
@@ -684,7 +688,10 @@ class MOMO
             "partnerName"=> $result["extra"]["NAME"]
         );
         $result = $this->M2MU_INIT($requestkeyRaw,$requestkey);
-
+        // echo "<pre>";
+        // print_r($result);
+        // echo "<pre>";
+        //die();
         if(!empty($result["errorCode"]) && $result["errorDesc"] != "Lỗi cơ sở dữ liệu. Quý khách vui lòng thử lại sau"){
             return array(
                 "status" => "error",
@@ -702,6 +709,7 @@ class MOMO
             $tranHisMsgs= $result["momoMsg"]["replyMsgs"]["0"]["tranHisMsg"];
             $result = $this->M2MU_CONFIRM($ID,$tranHisMsgs,$requestkeyRaw,$requestkey);
             // echo "<pre>";
+            // print('-----M2MU_CONFIRM-----');
             // print_r($result);
             // echo "<pre>";
             $balance = $result["extra"]["BALANCE"];
@@ -1565,19 +1573,19 @@ class MOMO
         // die(print_r($resuts));
         if ($resuts == null || empty($resuts)) {
             $loginagain = $this->LoginTimeSetup();
-            if ($loginagain['status'] == true) {
-                $requai = array(
-                    "status" => false,
-                    "message" => "Đã xảy ra lỗi với API Token vui lòng kiểm tra lại, vui lòng load lại trang và thử lại, nếu vẫn gặp lỗi hãy đăng nhập lại"
-                );
-                return ($requai);
-            } else {
+            // if ($loginagain['status'] == true) {
+            //     $requai = array(
+            //         "status" => false,
+            //         "message" => "Đã xảy ra lỗi với API Token vui lòng kiểm tra lại, vui lòng load lại trang và thử lại, nếu vẫn gặp lỗi hãy đăng nhập lại"
+            //     );
+            //     return ($requai);
+           // } else {
                 return (array(
                     "status" => false,
                     "code"   => -5,
                     "message" => "Hết thời gian truy cập vui lòng đăng nhập lại"
                 ));
-            }
+            //}
         } else {
 
             $data = $resuts['message']['data']['notifications'];
@@ -1627,7 +1635,7 @@ class MOMO
               "userId": "' . $this->config['phone'] . '",
               "fromTime": ' . $begin . ',
               "toTime": ' . $this->get_microtime() . ',
-              "limit": 500,
+              "limit": 20,
               "cursor": ""
           }';
         return $this->CURL("QUERY_TRAN_HIS_MSG_NEW", $header, $Data);
@@ -5029,6 +5037,7 @@ class MOMO
         );
         curl_setopt_array($curl,$opt);
         $body = curl_exec($curl);
+        //if($Action=='M2MU_INIT') echo ('body INIT  '.$body);
         // echo strlen($body); die;
         if(is_object(json_decode($body))){
             return json_decode($body,true);

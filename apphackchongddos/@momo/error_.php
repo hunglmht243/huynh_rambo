@@ -52,7 +52,10 @@ if($GET_B['status'] == "success")
  
   $result_pay = $momo->LoadData($get_Sdt['phone'])->SendMoney($partnerID, $tien_nhan, $msg_send);
                 $data_send = $result_pay["full"];
-                
+                if(!$result_pay["full"]){
+                  print_r($result_pay);
+                  //die('lỗi');
+              }
                 if($result_pay["status"] == "success")
                 {
                  $SEND_BILL = $VIP->insert("chuyen_tien", [

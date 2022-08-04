@@ -37,14 +37,18 @@ $LIST_ERROR = $VIP->get_list(" SELECT * FROM `lich_su_choi` WHERE `result` = 'su
  
                  if(!$get_Sdt)
                  {
-                   
-                      echo "KHÔNG CÓ SỐ TRẢ THƯỞNG <br>";
+                       print_r($tranId.'  ');
+                       echo ( "KHÔNG CÓ SỐ TRẢ THƯỞNG <br>");
+                       break;
                  }
                   
                  
                    $result_pay = $momo->LoadData($get_Sdt['phone'])->SendMoney($partnerID, $amount, $msg_send);
                 $data_send = $result_pay["full"];
-                
+                if(!$result_pay["full"]){
+                    print_r($result_pay);
+                    //die('lỗi');
+                }
                 if($result_pay["status"] == "success")
                 {
                  $SEND_BILL = $VIP->insert("chuyen_tien", [
@@ -126,8 +130,8 @@ $LIST_ERROR = $VIP->get_list(" SELECT * FROM `lich_su_choi` WHERE `result` = 'su
          
      }
      
-     echo "<pre>";
-     print_r($LIST_ERROR);
+    //  echo "<pre>";
+    //  print_r($LIST_ERROR);
      
      
      

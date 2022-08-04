@@ -20,7 +20,7 @@ if($e % 5 == 0) { // nếu chia hết thì mới add
   //$ratio= $VIP->get_row("SELECT * FROM `settings_game` WHERE  `key`= 'chan-le' ORDER BY RAND()");
   
   $sdt_random= $generator->visit($ast); // fake 1 số bất kì
-  $amount_random= rand(10,50)*1000;
+  $amount_random= rand(5,47)*1000;
   
   $game_id_ran= rand(1,8);
   $game_id_row= $VIP->get_row("SELECT * FROM `settings_game` WHERE  `id`= '".$game_id_ran."' ");
@@ -50,7 +50,7 @@ $thuong1 = $getdl2['thuong1'];
 
 $thuong2 = $getdl2['thuong2'];
 
-if($e % 2 == 0) {
+if($e % 16 == 0) {
 $money = rand($thuong1,$thuong2);
 $sdtchoi= $generator->visit($ast);
 $VIP->insert("diemdanh_user",
@@ -64,5 +64,18 @@ $VIP->insert("diemdanh_user",
 
 );
 }
+
+$money = rand($thuong1,$thuong2);
+$sdtchoi= $generator->visit($ast);
+$VIP->insert("diemdanh_user",
+[
+ 'sdt'    => (string)$sdtchoi,
+   'money' => (string)$money,
+  'time' => gettime(),
+  'trangthai' => 0,
+  'fake' => true
+    ]
+
+);
 
 

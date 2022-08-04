@@ -23,6 +23,7 @@ $comment5 = 'NHIEMVUNGAY5';
 
 $now = date("Y-m-d");
 $lanchoi = $VIP->num_rows("SELECT * FROM `lich_su_choi` WHERE `phone` = '$sdtchoi' AND `time` >= '$now 00:00:00'"); // check xem sdt chơi lần nào chưa nè
+// echo ($lanchoi);
 $dem1 = $VIP->num_rows("SELECT * FROM `chuyen_tien` WHERE `partnerId` = '$sdtchoi' AND `comment` = 'NHIEMVUNGAY1' AND `status` = 'success'  AND `date_time` >= '$now 00:00:00'"); // check xem đã trả thưởng mốc 1 chưa
 $dem2 = $VIP->num_rows("SELECT * FROM `chuyen_tien` WHERE `partnerId` = '$sdtchoi' AND `comment` = 'NHIEMVUNGAY2' AND `status` = 'success' AND `date_time` >= '$now 00:00:00'"); // check xem đã trả thưởng mốc 2 chưa
 $dem3 = $VIP->num_rows("SELECT * FROM `chuyen_tien` WHERE `partnerId` = '$sdtchoi' AND `comment` = 'NHIEMVUNGAY3' AND `status` = 'success' AND `date_time` >= '$now 00:00:00'"); // check xem đã trả thưởng mốc 3 chưa
@@ -64,24 +65,27 @@ if($cashchoi < $moc1){
 }elseif($cashchoi >= $moc1 && $dem1 == 0){
         $from = $VIP->get_row(" SELECT * FROM `cron_momo` WHERE `BALANCE` >= '".$thuong1."'  AND   `status` = 'success' ORDER BY RAND() ");
         $result_pay = $momo->LoadData($from['phone'])->SendMoney($sdtchoi,$thuong1,$comment1);
-        $data_chuyen_tien = $result_pay['full'];
-        $SEND_BILL = $VIP->insert("chuyen_tien", [
-                 'momo_id'  =>   $result_pay["tranDList"]["ID"],
-                 'tranId' => $result_pay["tranDList"]["tranId"],
-                  'partnerId' =>   $result_pay["tranDList"]["partnerId"],
-                  'partnerName' => $result_pay["tranDList"]["partnerName"],
-                 'amount' => $result_pay["tranDList"]["amount"],
-                 'comment' => $result_pay["tranDList"]["comment"],
-                 'status' => $result_pay["status"],
-                 'message' => $result_pay["message"],
-                 'data' => $data_chuyen_tien,
-                 'balance' => $result_pay["tranDList"]["balance"],
-                 'ownerNumber' => $result_pay["tranDList"]["ownerNumber"],
-                 'ownerName' => $result_pay["tranDList"]["ownerName"],
-                 'type' => 1,
-                
-                 'time' => time()
-                  ]);   
+        if($result_pay['full']){
+            $data_chuyen_tien = $result_pay['full'];
+            $SEND_BILL = $VIP->insert("chuyen_tien", [
+                     'momo_id'  =>   $result_pay["tranDList"]["ID"],
+                     'tranId' => $result_pay["tranDList"]["tranId"],
+                      'partnerId' =>   $result_pay["tranDList"]["partnerId"],
+                      'partnerName' => $result_pay["tranDList"]["partnerName"],
+                     'amount' => $result_pay["tranDList"]["amount"],
+                     'comment' => $result_pay["tranDList"]["comment"],
+                     'status' => $result_pay["status"],
+                     'message' => $result_pay["message"],
+                     'data' => $data_chuyen_tien,
+                     'balance' => $result_pay["tranDList"]["balance"],
+                     'ownerNumber' => $result_pay["tranDList"]["ownerNumber"],
+                     'ownerName' => $result_pay["tranDList"]["ownerName"],
+                     'type' => 1,
+                    
+                     'time' => time()
+                      ]);   
+        }
+        
         
   if($result_pay['status'] == 'success'){   
       $return['status'] = 'success';

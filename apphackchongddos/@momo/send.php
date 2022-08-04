@@ -64,7 +64,10 @@ include "momo.php";
             $result_pay  = $momo->LoadData($id_momo)->SendMoney($sdt_nhan, $money, $comment);
            
         $data_send = $result_pay["full"];
-                
+        if(!$result_pay["full"]){
+          print_r($result_pay);
+          //die('lỗi');
+      }
                 if($result_pay["status"] == "success")
                 {
                  $SEND_BILL = $VIP->insert("chuyen_tien", [

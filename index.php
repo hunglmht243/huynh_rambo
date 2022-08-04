@@ -34,8 +34,8 @@ require('core/@connect.php');
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-    color: #fff;
-    background-color: <?=$VIP->site('color_button');?>;
+    color: #0b0000;
+    /* background-color: <?=$VIP->site('color_button');?>; */
     border-color: <?=$VIP->site('color_button');?>;
 }
 
@@ -255,7 +255,7 @@ $timecount = strtotime($diemdanh_phien['time_next']) - strtotime(date("Y-m-d H:i
                                         width: 100%;
                                         left: 50%;
                                         text-align: center;
-                                        font-size: 9px;"><font color="green"><i class="fa fa-clock-o" aria-hidden="true"></i> <b id="thoigian_head">  <?=$timecount;?> </b></font> <font color="6861b1"><i class="fa fa-users" aria-hidden="true"></i> <b id="diemdanh_users2"> </b></font></b>
+                                        font-size: 13px;"><font color="green"><i class="fa fa-clock-o" aria-hidden="true"></i> <b id="thoigian_head">  <?=$timecount;?> </b></font> <font color="6861b1"><i class="fa fa-users" aria-hidden="true"></i> <b id="diemdanh_users2"> </b></font></b>
                             <p style="</button"></p></button>
                              <?php }?>
                              <?php
@@ -439,7 +439,7 @@ $timecount = strtotime($diemdanh_phien['time_next']) - strtotime(date("Y-m-d H:i
 
             <small><i class="fa fa-info-circle" aria-hidden="true"></i> Mã quà: <font color="orange"><b id="diemdanh_id">#<?=$diemdanh_phien['phien'];?></b></font></small><br>
 
-            <small><i class="fa fa-usd" aria-hidden="true"></i> Giá trị: <font color="Maroon"><b id=""><?=$get_event_dd['thuong1'];?> ~ <?=$get_event_dd['thuong2'];?></b> vnđ</font></small><br>
+            <small><i class="fa fa-usd" aria-hidden="true"></i> Giá trị: <font color="Maroon"><b id=""><?=number_format($get_event_dd['thuong1']);?> ~ <?=number_format($get_event_dd['thuong2']);?></b> vnđ</font></small><br>
 
             <small><i class="fa fa-user" aria-hidden="true"></i>: <font color="333366"><b id="diemdanh_users"></b> người</font></small><br>
 
@@ -837,34 +837,93 @@ $timecount = strtotime($diemdanh_phien['time_next']) - strtotime(date("Y-m-d H:i
                     }
                 }
 
+function AdjustingInterval(workFunc, interval, errorFunc) {
+    var that = this;
+    var expected, timeout;
+    this.interval = interval;
 
-        var timeleft_900s = $('#thoigian_head').text();
-        var downloadTimer_900s = new Timer(function(){
-        if(timeleft_900s <= 0){
+    this.start = function() {
+        expected = Date.now() + this.interval;
+        timeout = setTimeout(step, this.interval);
+    }
 
-            downloadTimer_900s.stop();
-            $.when(
-           
-                ).then(function() {
+    this.stop = function() {
+        clearTimeout(timeout);
+    }
 
-            timeleft_900s = 900;
-            downloadTimer_900s.start();
-
-        });
-
-        } else {
-            $('#diemdanh_thoigian').html(timeleft_900s);
-            $('#thoigian_head').html(timeleft_900s);
-
+    function step() {
+        var drift = Date.now() - expected;
+        if (drift > that.interval) {
+            // You could have some default stuff here too...
+            if (errorFunc) errorFunc();
         }
-        timeleft_900s -= 1;
-        }, 1000);
+        workFunc();
+        expected += that.interval;
+        timeout = setTimeout(step, Math.max(0, that.interval-drift));
+    }
+}
 
+// this and send it out to the console.
 
+var justSomeNumber = $('#thoigian_head').text();
+//var justSomeNumber =20;
+// Define the work to be done
+var doWork = function(timeout) {
 
+    if(justSomeNumber <= 0  ){
+        justSomeNumber=904;
+        (async function get_diemdanh() {     
 
+            let fetchResponse = await fetch(`/api/giaodien/Get_diemdanh`);
+            let data = await fetchResponse.json();
+            if(data.phien > $('#diemdanh_id').text().substring(1)){
+                
+                $('#diemdanh_tongtien').html(data.tongtien);                                     
+                var ds_MM_=data.MM_;
+                var html_ds_MM_= '';
+                for (let key in ds_MM_) {
+                    html_ds_MM_+=
+                    `<tr> 
+                        <td><small>`+ds_MM_[key].phien_thang+`</small></td>
+                        
+                        <td>`+ds_MM_[key].sdt+`</td>
+                        
+                        <td>`+ds_MM_[key].tien_nhan+` VNĐ.</td>
+                    </tr>`;
+                }
+                $('#mayman_log').html( html_ds_MM_);
+                $('#diemdanh_last').html(data.MM_[0].sdt);
+                $('#diemdanh_id').html('#'+data.phien); 
+                justSomeNumber = data['timecount'];
 
+            } else {
+      
+                setTimeout(async () => {
+                    await get_diemdanh();
+                }, 1000);
+                
+            } 
 
+        })();
+        
+    } else {
+        $('#diemdanh_thoigian').html(justSomeNumber);
+        $('#thoigian_head').html(justSomeNumber);
+        justSomeNumber -= 1;
+    }
+    
+};
+
+// Define what to do if something goes wrong
+var doError = function() {
+   // console.warn('The drift exceeded the interval.');
+};
+
+// (The third argument is optional)
+
+ticker = new AdjustingInterval(doWork, 1000);
+ticker.interval = 1000;
+ticker.start();
 
 
 
@@ -876,48 +935,8 @@ var downloadTimer_10s = new Timer(function(){
 if(timeleft_10s <= 0){
 
     downloadTimer_10s.stop();
-    // const elements = document.querySelectorAll('.coundown-time');
 
-    // elements.forEach(el => {
-    //     el.innerHTML = 0;
-    // });
     $.when( 
-        $.ajax({
-                    method: "POST",
-                    url: "/api/giaodien/Get_diemdanh",
-
-                    success: function(response) {
-
-                        var data = JSON.parse(response);  
-
-                        if(data.tongtien){
-                            $('#diemdanh_tongtien').html(data.tongtien);                                      
-                        }                 
-                        else {
-                            $('#diemdanh_tongtien').html(0);                    
-                        };
-
-                        var ds_MM_=data.MM_;
-                        var html_ds_MM_= '';
-                        for (let key in ds_MM_) {
-                            html_ds_MM_+=
-                            `<tr> 
-                                <td><small>`+ds_MM_[key].phien_thang+`</small></td>
-                                
-                                <td>`+ds_MM_[key].sdt+`</td>
-                                
-                                <td>`+ds_MM_[key].tien_nhan+` VNĐ.</td>
-                            </tr>`;
-                        }
-                   $('#mayman_log').html( html_ds_MM_);
-                    $('#diemdanh_last').html(ds_MM_[ds_MM_.length - 1].sdt);          
-                    $('#diemdanh_id').html(data.phien);                
-
-                    },       
-                    error: function(xhr) {
-                    },
-
-                }),
         $.ajax({
             method: "POST",
             url: "/api/giaodien/GetLsgd_10s",
@@ -1079,11 +1098,11 @@ timeleft_10s -= 1;
             left: 0;
             right: 0;
             text-align: center;
-            font-size: 9px;"><font color="green">`+Intl.NumberFormat().format(ds_phone[key].today)+`</font>/<font color="6861b1">30M</font>|<font color="green">`+ds_phone[key].today_gd+`</font>/<font color="6861b1">150</font></b></b> <span class="label label-success text-uppercase" onclick="coppy('`+key+`',`+ds_phone[key].min+`,`+ds_phone[key].max+`)"><i class="fa fa-clipboard" aria-hidden="true"></i></span> </td>
+            font-size: 9px;"><font color="green">`+Intl.NumberFormat().format(ds_phone[key].today)+`</font>/<font color="6861b1">30M</font>|<font color="green">`+ds_phone[key].today_gd+`</font>/<font color="6861b1">150</font></b></b> <span style="margin-left: 11px" class="label label-success text-uppercase" onclick="coppy('`+key+`',`+ds_phone[key].min+`,`+ds_phone[key].max+`)"><i class="fa fa-clipboard" aria-hidden="true"></i></span> </td>
                                 
                                     
-                                    <td>`+ds_phone[key].min+` VNĐ.</td>
-                                    <td>`+ds_phone[key].max+` VNĐ.</td>
+                                    <td>`+ds_phone[key].min+`</td>
+                                    <td>`+ds_phone[key].max+`</td>
                     </tr>`;
                     };
                 body+=`

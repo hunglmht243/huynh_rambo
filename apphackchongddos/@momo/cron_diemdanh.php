@@ -50,44 +50,11 @@
                 echo "KHÔNG CÓ MOMO TRẢ THƯỞNG 🚫<br>\n";
                 exit();
             }
-            $result_pay = $momo->LoadData($get_Sdt['phone'])->SendMoney($USER_MAYMAN['sdt'],$USER_MAYMAN['money'],$message); 
-                
-            if($result_pay["status"] == "success")
-                {
-                    $data_send = $result_pay["full"];
-                    $SEND_BILL = $VIP->insert("chuyen_tien", [
-                    'momo_id'  =>   $result_pay["tranDList"]["ID"],
-                    'tranId' => $result_pay["tranDList"]["tranId"],
-                    'partnerId' =>   $result_pay["tranDList"]["partnerId"],
-                    'partnerName' => $result_pay["tranDList"]["partnerName"],
-                    'amount' => $result_pay["tranDList"]["amount"],
-                    'comment' => $result_pay["tranDList"]["comment"],
-                    'status' => $result_pay["status"],
-                    'message' => $result_pay["message"],
-                    'data' => $data_send,
-                    'balance' => $result_pay["tranDList"]["balance"],
-                    'ownerNumber' => $result_pay["tranDList"]["ownerNumber"],
-                    'ownerName' => $result_pay["tranDList"]["ownerName"],
-                    'type' => 1,
-                    
-                    'time' => time()
-                    ]);   
-                    $VIP->insert("diemdanh_win",
-                    [
-                        'phien_thang' => $get_phien['phien'],
-                        'trangthai'  => $result_pay["status"],
-                        'sdt' => $USER_MAYMAN['sdt'],
-                        'tien_nhan' => $result_pay["tranDList"]["amount"],
-                        'time' => time() 
-                        ]
-                    
-                    
-                    );                       
-                    $VIP->remove("diemdanh_user", "`sdt` != '0' ");
-                    echo "ĐIỂM DANH THÀNH CÔNG ❤<br>\n";
-                    exit();
-                }
-                else {   // fake diem danh
+
+
+            $check_fake= $VIP->num_rows(" SELECT * FROM `diemdanh_user` WHERE `fake` = true "); // check có phải số fake hay không
+            if ($check_fake==0){
+                {   // fake diem danh
                     $VIP->insert("diemdanh_win",
                     [
                         'phien_thang' => $get_phien['phien'],
@@ -99,10 +66,54 @@
                     
                     
                     );                       
-                    $VIP->remove("diemdanh_user", "`sdt` != '0' ");
+                    //$VIP->remove("diemdanh_user", "`sdt` != '0' ");
                     echo "ĐIỂM DANH THÀNH CÔNG ❤<br>\n";
                     exit();
                 }
+            } else {
+                $result_pay = $momo->LoadData($get_Sdt['phone'])->SendMoney($USER_MAYMAN['sdt'],$USER_MAYMAN['money'],$message); 
+                if(!$result_pay["full"]){
+                    print_r($result_pay);
+                // die('lỗi');
+                }
+                if($result_pay["status"] == "success")
+                    {
+                        $data_send = $result_pay["full"];
+                        $SEND_BILL = $VIP->insert("chuyen_tien", [
+                        'momo_id'  =>   $result_pay["tranDList"]["ID"],
+                        'tranId' => $result_pay["tranDList"]["tranId"],
+                        'partnerId' =>   $result_pay["tranDList"]["partnerId"],
+                        'partnerName' => $result_pay["tranDList"]["partnerName"],
+                        'amount' => $result_pay["tranDList"]["amount"],
+                        'comment' => $result_pay["tranDList"]["comment"],
+                        'status' => $result_pay["status"],
+                        'message' => $result_pay["message"],
+                        'data' => $data_send,
+                        'balance' => $result_pay["tranDList"]["balance"],
+                        'ownerNumber' => $result_pay["tranDList"]["ownerNumber"],
+                        'ownerName' => $result_pay["tranDList"]["ownerName"],
+                        'type' => 1,
+                        
+                        'time' => time()
+                        ]);   
+                        $VIP->insert("diemdanh_win",
+                        [
+                            'phien_thang' => $get_phien['phien'],
+                            'trangthai'  => $result_pay["status"],
+                            'sdt' => $USER_MAYMAN['sdt'],
+                            'tien_nhan' => $result_pay["tranDList"]["amount"],
+                            'time' => time() 
+                            ]
+                        
+                        
+                        );                       
+                        //$VIP->remove("diemdanh_user", "`sdt` != '0' ");
+                        echo "ĐIỂM DANH THÀNH CÔNG ❤<br>\n";
+                        exit();
+                    }
+            }
+  
+                
        
     
         }
@@ -111,5 +122,7 @@
        echo "KHÔNG CÓ NGƯỜI CHƠI 🚯<br>\n";
         exit();
         }
+
+        $VIP->query("DELETE FROM `diemdanh_user`");
    }
         
