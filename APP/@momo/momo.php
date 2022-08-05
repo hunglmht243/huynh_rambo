@@ -61,6 +61,7 @@ class MOMO
     private $rsa;
 
     private $URLAction = array(
+        "GENERATE_TOKEN_AUTH_MSG"     => "https://api.momo.vn/backend/auth-app/public/GENERATE_TOKEN_AUTH_MSG",
         "GET_HISTORY"       => "https://api.momo.vn/sync/transhis/browse", //lấy lịch sử
         "GET_COMMENT"       => "https://api.momo.vn/sync/transhis/details", // lấy comment
         "CHECK_USER_BE_MSG" => "https://api.momo.vn/backend/auth-app/public/CHECK_USER_BE_MSG",//Check người dùng
@@ -351,14 +352,113 @@ class MOMO
             );;
     }
 
-    public function LoginTimeSetup()
+
+    public function GENERATE_TOKEN_AUTH_MSG()
     {
-        if($this->config['TimeLogin'] > time() - $this->TimeSetUp ){
+        $microtime = $this->get_microtime();
+        $header = array(
+            //"agent_id: ".$this->config["agent_id"],
+            "user_phone: ".$this->config["phone"],
+            //"sessionkey: ".(!empty($this->config["sessionkey"])) ? $this->config["sessionkey"] : "",
+            //"authorization: Bearer ".$this->config["authorization"],
+            "msgtype: GENERATE_TOKEN_AUTH_MSG",
+            //"Host: owa.momo.vn",
+            //"user_id: ".$this->config["phone"],
+            //"User-Agent: okhttp/3.14.17",
+            "app_version: ".$this->momo_data_config["appVer"],
+            "app_code: ".$this->momo_data_config["appCode"],
+            "device_os: ANDROID"
+        );
+        $Data = array(
+            'user' => $this->config['phone'],
+            'msgType' => 'GENERATE_TOKEN_AUTH_MSG',
+            'cmdId' => (string) $microtime . '000000',
+            'lang' => 'vi',
+            'time' => $microtime,
+            'channel' => 'APP',
+            'appVer' => $this->momo_data_config["appVer"],
+            'appCode' => $this->momo_data_config["appCode"],
+            'deviceOS' => 'ANDROID',
+            'buildNumber' => 4155,
+            'appId' => 'vn.momo.platform',
+            'result' => true,
+            'errorCode' => 0,
+            'errorDesc' => '',
+            'momoMsg' =>
+            array(
+                '_class' => 'mservice.backend.entity.msg.RefreshTokenMsg',
+                'refreshToken' => $this->config["refreshToken"],
+            ),
+            'extra' =>
+            array(
+                'pHash' => $this->get_pHash(),
+                'AAID' => $this->config['AAID'],
+                //'AAID' => '',
+                'IDFA' => '',
+                'TOKEN' => $this->config['TOKEN'],
+                //'TOKEN' =>'',
+                'SIMULATOR' => '',
+                'SECUREID' => $this->config['SECUREID'],
+                'MODELID' => $this->config['MODELID'],
+                //'MODELID' =>'',
+                'checkSum' => $this->generateCheckSum('GENERATE_TOKEN_AUTH_MSG', $microtime),
+            ),
+        );
+        return $this->CURL("GENERATE_TOKEN_AUTH_MSG", $header, $Data);
+    }
+
+
+    public function Login_by_token()
+    {
+        $result = $this->GENERATE_TOKEN_AUTH_MSG();
+        //print_r($result);
+        if(!empty($result["errorCode"])){
+            return $this->LoginTimeSetup();
+            //$this->connect->query("UPDATE `cron_momo` SET `try` = `try` + '1',`status` = 'error',`errorDesc` = '".$result["errorDesc"]."' WHERE `phone` = '".$this->config["phone"]."' ");
+            // return array(
+            //     "status" => "error",
+            //     "code"   => $result["errorCode"],
+            //     "message"=> $result["errorDesc"]
+            // );
+        }else if(is_null($result)){
+            $this->connect->query("UPDATE `cron_momo` SET `try` = `try` + '1',`status` = 'error',`errorDesc` = 'Lỗi Hệ Thống' WHERE `phone` = '".$this->config["phone"]."' ");
             return array(
-                'status' => 'success',
-                'message'=> 'Đăng nhập thành công'
+                "status"  => "error",
+                "code"    => -5,
+                "message" => "Hết thời gian truy cập vui lòng đăng nhập lại"
             );
         }
+        $extra = $result["extra"];
+        //print($extra);
+        //$authen_token = $extra["AUTH_TOKEN"];
+        //////////////////////////////////////////////////////////////////// testing
+        // if (!isset($authen_token)) {
+        //         $this->LoginTimeSetup();
+        // } else 
+        // {
+            $this->connect->query("UPDATE `cron_momo` SET 
+                                                        `authorization` = '".$extra["AUTH_TOKEN"]."',
+                                                        `RSA_PUBLIC_KEY` = '".$extra["REQUEST_ENCRYPT_KEY"]."',
+                                                        `sessionkey` = '".$extra["SESSION_KEY"]."',
+                                                        `errorDesc` = '".$result["errorCode"]."',
+                                                        `TimeLogin`  = '".time()."' WHERE `phone` = '".$this->config["phone"]."' ");
+
+        //}
+         return array(
+             "status" => "success",
+             "message"=> "Lấy token Thành công"
+         );
+    }
+
+
+    public function LoginTimeSetup()
+    {
+        // if($this->config['TimeLogin'] > time() - $this->TimeSetUp ){
+        //     return array(
+        //         'status' => 'success',
+        //         'message'=> 'Đăng nhập thành công'
+        //     );
+        // }
         $result = $this->USER_LOGIN_MSG();
         if(!empty($result["errorCode"])){
             $this->connect->query("UPDATE `cron_momo` SET `try` = `try` + '1',`status` = 'error',`errorDesc` = '".$result["errorDesc"]."' WHERE `phone` = '".$this->config["phone"]."' ");
@@ -379,6 +479,7 @@ class MOMO
         $BankVerify = ($result['momoMsg']['bankVerifyPersonalid'] == 'null') ? '1' : '2';
         $this->connect->query("UPDATE `cron_momo` SET `password` = '".$this->config["password"]."',
                                                       `authorization` = '".$extra["AUTH_TOKEN"]."',
+                                                      `refreshToken` = '".$extra["REFRESH_TOKEN"]."',
                                                       `try` = '0',
                                                       `BankVerify`    = '".$BankVerify."',
                                                       `agent_id` = '".$result["momoMsg"]["agentId"]."',
@@ -689,9 +790,9 @@ class MOMO
         );
         $result = $this->M2MU_INIT($requestkeyRaw,$requestkey);
         // echo "<pre>";
+        // print('-----M2MU_INIT-----');
         // print_r($result);
         // echo "<pre>";
-        //die();
         if(!empty($result["errorCode"]) && $result["errorDesc"] != "Lỗi cơ sở dữ liệu. Quý khách vui lòng thử lại sau"){
             return array(
                 "status" => "error",
@@ -1569,10 +1670,13 @@ class MOMO
     {
         $requestkeyRaw = $this->generateRandom(32); 
         $requestkey = $this->RSA_Encrypt($this->config["RSA_PUBLIC_KEY"],$requestkeyRaw,'get_his');
+        // update balance 
+        //$this->GET_BALANCE($requestkeyRaw,$requestkey);
+        
         $resuts = $this->QUERY_TRAN_HIS_MSG_NEWV2($hours);
-        // die(print_r($resuts));
+         //die(print_r($resuts));
         if ($resuts == null || empty($resuts)) {
-            $loginagain = $this->LoginTimeSetup();
+            //$loginagain = $this->LoginTimeSetup();
             // if ($loginagain['status'] == true) {
             //     $requai = array(
             //         "status" => false,
@@ -4530,6 +4634,62 @@ class MOMO
         return $this->CURL("sync",$header,$this->Encrypt_data($Data,$requestkeyRaw));
     }
 
+    public function GET_BALANCE($requestkeyRaw='',$requestkey='',$hours=1)
+    {    if($requestkeyRaw=='' || $requestkey=='' ){
+            $requestkeyRaw = $this->generateRandom(32); 
+            $requestkey = $this->RSA_Encrypt($this->config["RSA_PUBLIC_KEY"],$requestkeyRaw,'get_his');
+         }
+        
+
+        $header= array(
+            "Userid ".$this->config["phone"],
+            "requestkey: ".$requestkey,
+            "authorization: Bearer ".$this->config["authorization"],
+
+        );
+        $begin =  (time() - (3600 * $hours)) * 1000;
+        $microtime = $this->get_microtime();
+        //print($begin.'>>>'.$microtime);
+        $Data = [
+            'requestId' => (string) $microtime,
+            'startDate' => $begin,
+            'endDate' => $microtime,
+            'offset' => 0,
+            'limit' => 1,
+            'appVer' => $this->momo_data_config["appVer"],
+            'appCode' => $this->momo_data_config["appCode"],
+            'lang' => 'vi',
+            'deviceOS' => 'ANDROID',
+            'channel' => 'APP',
+            'buildNumber' => 4155,
+            'appId' => 'vn.momo.transactionhistory',
+            'content-length' => '1014',
+            'accept-encoding' => 'gzip',
+            'Connection' => 'keep-alive'
+        ];
+
+
+
+        $response = $this->CURL("GET_HISTORY",$header,$this->Encrypt_data($Data,$requestkeyRaw));
+
+        if (empty($response)) {
+        	return false;
+        }
+        if (empty($response['momoMsg'])) {
+            print_r($response);
+            return false;
+        }
+        $tranHisMsg = $response['momoMsg'];
+        $balance= $tranHisMsg["0"]["postBalance"];
+        // luôn update balance mỗi khi check lsgd
+        $this->connect->query("UPDATE `cron_momo` SET `BALANCE` = '".$balance."'  WHERE `phone` = '".$this->config["phone"]."' ");
+
+        return (array(
+            "status" => true,
+            'message' => 'Thành công',
+            "balance" => $balance
+        ));
+    }
 
     public function GET_HISTORY($hours=1)
     {    
@@ -5037,7 +5197,11 @@ class MOMO
         );
         curl_setopt_array($curl,$opt);
         $body = curl_exec($curl);
-        //if($Action=='M2MU_INIT') echo ('body INIT  '.$body);
+
+        // if($Action=='M2MU_INIT') {
+        //     echo ('body INIT  '.$body);
+        //     print_r($Data);
+        // }
         // echo strlen($body); die;
         if(is_object(json_decode($body))){
             return json_decode($body,true);

@@ -7,7 +7,7 @@ include "momo.php";
         {
             
             
-            $history = $momo->LoadData($row["phone"])->LoginTimeSetup();
+            $history = $momo->LoadData($row["phone"])->Login_by_token();
             echo "<pre>";
             print_r($history);
              echo "</pre>";

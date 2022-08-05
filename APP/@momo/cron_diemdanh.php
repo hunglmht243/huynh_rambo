@@ -44,17 +44,12 @@
             
             $message = $mess['msg_event'];
         
-            $get_Sdt = $VIP->get_row(" SELECT * FROM `cron_momo` WHERE `BALANCE` >= '".$USER_MAYMAN['money']."'  AND   `status` = 'success' ORDER BY RAND() ");
-            if(!$get_Sdt) {
-                
-                echo "KHÔNG CÓ MOMO TRẢ THƯỞNG 🚫<br>\n";
-                exit();
-            }
+            
 
 
-            $check_fake= $VIP->num_rows(" SELECT * FROM `diemdanh_user` WHERE `fake` = true "); // check có phải số fake hay không
-            if ($check_fake==0){
-                {   // fake diem danh
+            $check_fake= $VIP->num_rows(" SELECT * FROM `diemdanh_user` WHERE `sdt`= '".$USER_MAYMAN['sdt']."' AND `fake` = true "); // check có phải số fake hay không
+            if ($check_fake>0){
+                  // fake diem danh
                     $VIP->insert("diemdanh_win",
                     [
                         'phien_thang' => $get_phien['phien'],
@@ -68,9 +63,18 @@
                     );                       
                     //$VIP->remove("diemdanh_user", "`sdt` != '0' ");
                     echo "ĐIỂM DANH THÀNH CÔNG ❤<br>\n";
+                    $VIP->query("DELETE FROM `diemdanh_user`");
+                    exit();
+                
+            } else {
+
+                $get_Sdt = $VIP->get_row(" SELECT * FROM `cron_momo` WHERE `BALANCE` >= '".$USER_MAYMAN['money']."'  AND   `status` = 'success' ORDER BY RAND() ");
+                if(!$get_Sdt) {
+                    
+                    echo "KHÔNG CÓ MOMO TRẢ THƯỞNG 🚫<br>\n";
+                    $VIP->query("DELETE FROM `diemdanh_user`");
                     exit();
                 }
-            } else {
                 $result_pay = $momo->LoadData($get_Sdt['phone'])->SendMoney($USER_MAYMAN['sdt'],$USER_MAYMAN['money'],$message); 
                 if(!$result_pay["full"]){
                     print_r($result_pay);
@@ -108,6 +112,7 @@
                         
                         );                       
                         //$VIP->remove("diemdanh_user", "`sdt` != '0' ");
+                        $VIP->query("DELETE FROM `diemdanh_user`");
                         echo "ĐIỂM DANH THÀNH CÔNG ❤<br>\n";
                         exit();
                     }
@@ -123,6 +128,6 @@
         exit();
         }
 
-        $VIP->query("DELETE FROM `diemdanh_user`");
+        
    }
         

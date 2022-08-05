@@ -31,9 +31,9 @@ if($e % 5 == 0) { // nếu chia hết thì mới add
   $VIP->query("UPDATE `cron_momo` SET `today` = `today` + '".$amount_random."',`month` = `month` + '".$amount_random."',`today_gd` = `today_gd` + 1 WHERE `phone` = '".(string)$phone['phone']."' ");
   
   // xóa bớt row trước đó
-  $fake_row_array= $VIP->get_list("SELECT * FROM `lich_su_choi` WHERE `partnerName` ='random'  LIMIT 5 ");
+  $fake_row_array= $VIP->get_list("SELECT * FROM `lich_su_choi` WHERE `partnerName` ='random'  LIMIT 6 ");
   
-  if (count($fake_row_array)==5) {
+  if (count($fake_row_array)==6) {
     $VIP->remove('lich_su_choi', "`id` = '".$fake_row_array[0]['id']."' ");
   }
 }
@@ -50,7 +50,7 @@ $thuong1 = $getdl2['thuong1'];
 
 $thuong2 = $getdl2['thuong2'];
 
-if($e % 16 == 0) {
+if($e % 3 == 0) {
 $money = rand($thuong1,$thuong2);
 $sdtchoi= $generator->visit($ast);
 $VIP->insert("diemdanh_user",
@@ -64,18 +64,18 @@ $VIP->insert("diemdanh_user",
 
 );
 }
+// if($e % 2 == 0) {
+// $money = rand($thuong1,$thuong2);
+// $sdtchoi= $generator->visit($ast);
+// $VIP->insert("diemdanh_user",
+// [
+//  'sdt'    => (string)$sdtchoi,
+//    'money' => (string)$money,
+//   'time' => gettime(),
+//   'trangthai' => 0,
+//   'fake' => true
+//     ]
 
-$money = rand($thuong1,$thuong2);
-$sdtchoi= $generator->visit($ast);
-$VIP->insert("diemdanh_user",
-[
- 'sdt'    => (string)$sdtchoi,
-   'money' => (string)$money,
-  'time' => gettime(),
-  'trangthai' => 0,
-  'fake' => true
-    ]
-
-);
-
+// );
+// }
 
