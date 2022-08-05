@@ -6,6 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
+    'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
+    'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
+    'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src/PhpOption'),
     'Hoa\\Zformat\\' => array($vendorDir . '/hoa/zformat'),
     'Hoa\\Visitor\\' => array($vendorDir . '/hoa/visitor'),
     'Hoa\\Ustring\\' => array($vendorDir . '/hoa/ustring'),
@@ -19,4 +23,6 @@ return array(
     'Hoa\\Event\\' => array($vendorDir . '/hoa/event'),
     'Hoa\\Consistency\\' => array($vendorDir . '/hoa/consistency'),
     'Hoa\\Compiler\\' => array($vendorDir . '/hoa/compiler'),
+    'GrahamCampbell\\ResultType\\' => array($vendorDir . '/graham-campbell/result-type/src'),
+    'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
 );
