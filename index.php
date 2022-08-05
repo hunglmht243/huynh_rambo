@@ -1,7 +1,6 @@
 <?php
 require('core/@connect.php'); 
 ?>
-
 <html class="no-js" lang="vi"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title> <?=$VIP->site('title');?></title>

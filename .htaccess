@@ -1,10 +1,9 @@
 ServerSignature Off
 RewriteEngine On
-#RewriteCond %{SERVER_PORT} 3333
+
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
-#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
-#TrangChu
+
 RewriteRule ^([a-zA-Z0-9-/]+).php/$ prob-page-dtls_post.php [QSA,L]
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-f
@@ -67,13 +66,6 @@ RewriteRule ^xoa-gd$ /APP/@momo/xoa_gd.php [L]
 RewriteRule ^bill-loi$ /APP/@momo/cron_bill_loi.php [L]
 RewriteRule ^reset-cron$ /APP/@momo/reset_cron.php [L]
 RewriteRule ^cron-fake$ /APP/@momo/cron_fake.php [L]
-#ErrorDocument 404 /404.php
-
-#BLOCKBOT
-
-#RewriteRule ^.* - [F,L]
-
-# Bảo vệ file .htaccess
 <files .htaccess>
 order allow,deny
 deny from all

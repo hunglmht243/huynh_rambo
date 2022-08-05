@@ -55,7 +55,7 @@
 <script src="/ADMIN/vendor/js/buttons.flash.min.js?<?=rand(1,999);?>"></script>
 <script src="/ADMIN/vendor/js/buttons.print.min.js?<?=rand(1,999);?>"></script>
 <!-- Argon JS -->
-<script src="/ADMIN/vendor/js/argon.js@v=1.0.0"></script>
+<script src="/ADMIN/vendor/js/argon.js"></script>
 <!-- Demo JS - remove this in your project -->
 <script src="/ADMIN/vendor/js/demo.min.js?<?=rand(1,999);?>"></script>
 <script src="/ADMIN/vendor/js/quill.min.js?<?=rand(1,999);?>"></script>
