@@ -20,12 +20,12 @@
 
 <script src="/ADMIN/vendor/lib/js/bundle.js?95118454"></script>
 <script src="/ADMIN/vendor/lib/js/app.min.js?47916108"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pusher/7.0.3/pusher.min.js?27184805"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pusher/7.0.3/pusher.min.js?27184805"></script>
 <script>
     const pusher = new Pusher('8424c10da800c48a00cf', {
         cluster: 'ap1'
     });
-</script>
+</script> -->
 <script src="/ADMIN/vendor/lib/js/function.js?<?=rand(1,99999999);?>"></script>
 <script>
     $(document).ready(function() {

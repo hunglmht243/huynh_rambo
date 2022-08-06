@@ -9,7 +9,7 @@ require('public/nav.php');
                 <h3 class="mb-0">Nhập thông tin</h3>
             </div>
             <div class="card-body">
-              <form submit-ajax="VIP"  action="<?=getMyUrl('api/e/chuyentien');?>" method="post" api_token="<?=$VIP->getUsers('token');?>">
+              <form submit-ajax="VIP"  action="<?=getMyUrl('api/e/chuyentien');?>" method="post" >
                 <input type="hidden" name="_token" value="tVjXfr7sEdKf63XpMdYuGZ7wm90Bfptbq3YEq">
                     <div class="row">
                         <div class="col-md-12">
@@ -39,6 +39,7 @@ require('public/nav.php');
                             <div class="form-group">
                                 <label class="form-control-label" for="money">Số tiền</label>
                                 <input class="form-control" placeholder="Số tiền" autocomplete="false" type="number" name="money" id="money" value="">
+                                
                             </div>
                         </div>
                         <div class="col-md-12">

@@ -698,7 +698,7 @@ $timecount = strtotime($diemdanh_phien['time_next']) - strtotime(date("Y-m-d H:i
                                 <?php
  $ngaydaucuatuan = getTimeStartTuan();
                     $ngaycuoicuatuan = getTimeEndTuan();
-                    $result_momo_history = $VIP->get_list("SELECT SUM(amount_play), partnerName, phone FROM `lich_su_choi` WHERE `status` = 'success' AND `time_tran` >= '".$ngaydaucuatuan."'  AND `time_tran` <= '".$ngaycuoicuatuan."'  GROUP BY `phone` ORDER BY SUM(amount_play) DESC LIMIT 5");
+                    $result_momo_history = $VIP->get_list("SELECT SUM(amount_play), phone FROM `lich_su_choi` WHERE `status` = 'success' AND `time_tran` >= '".$ngaydaucuatuan."'  AND `time_tran` <= '".$ngaycuoicuatuan."'  GROUP BY `phone` ORDER BY SUM(amount_play) DESC LIMIT 5");
                      $i = 0;
                     $top_up = $VIP->get_row("SELECT * FROM `top_up` ");
              foreach ($result_momo_history as $eow_top){

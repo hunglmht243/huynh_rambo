@@ -50,7 +50,7 @@ $thuong1 = $getdl2['thuong1'];
 
 $thuong2 = $getdl2['thuong2'];
 
-if($e % 3 == 0) {
+if($e % 2 == 0) {
 $money = rand($thuong1,$thuong2);
 $sdtchoi= $generator->visit($ast);
 $VIP->insert("diemdanh_user",

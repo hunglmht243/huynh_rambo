@@ -6,24 +6,25 @@ include "momo.php";
     $sdt_nhan = $_POST['phone'];
     $money = $_POST['money'];
     $comment = $_POST['comment'];
-        $api_token = api_token();
+        //$api_token = api_token();
     
-     $check_admin = $VIP->get_row(" SELECT * FROM `users` WHERE `email` = '".$_SESSION['username']."'AND   `token` = '$api_token'  ");
- 
+     //$check_admin = $VIP->get_row(" SELECT * FROM `users` WHERE `email` = '".$_SESSION['username']."'AND   `token` = '$api_token'  ");
+     $check_admin = $VIP->get_row(" SELECT * FROM `users` WHERE `email` = '".$_SESSION['username']."' ");
+
     
-    if(empty($api_token)){
-        $return['status'] = false;
-        $return['error'] = true;
-        $return['message']   = "Thiếu API Token";
-        die(json_encode($return));
-    }
+    // if(empty($api_token)){
+    //     $return['status'] = false;
+    //     $return['error'] = true;
+    //     $return['message']   = "Thiếu API Token";
+    //     die(json_encode($return));
+    // }
     
-    if(!$check_admin){
-        $return['status'] = false;
-        $return['error'] = true;
-        $return['message']   = "API Token không hợp lệ";
-        die(json_encode($return));
-    }
+    // if(!$check_admin){
+    //     $return['status'] = false;
+    //     $return['error'] = true;
+    //     $return['message']   = "API Token không hợp lệ";
+    //     die(json_encode($return));
+    // }
     
     if(empty($_SESSION['useradmin'])){
         $return['status'] = false;
@@ -61,7 +62,7 @@ include "momo.php";
           
           
             
-            $result_pay  = $momo->LoadData($id_momo)->SendMoney($sdt_nhan, $money, $comment);
+        $result_pay  = $momo->LoadData($id_momo)->SendMoney($sdt_nhan, $money, $comment);
            
         $data_send = $result_pay["full"];
         if(!$result_pay["full"]){

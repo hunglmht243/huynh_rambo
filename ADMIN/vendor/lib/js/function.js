@@ -31,13 +31,13 @@ $(document).ready(function () {
             $(".contact-head.button-head-opened").click();
         }
     });
-    let channel = pusher.subscribe("notification");
-    if (typeof profile !== "undefined") {
-        channel.bind(`user-${profile.id}`, function (payload) {
-            // toastr[`${payload.status}`](`${payload.message}`,'Thông báo');
-            swal(`${payload.message}`, `${payload.status}`);
-        });
-    }
+    // let channel = pusher.subscribe("notification");
+    // if (typeof profile !== "undefined") {
+    //     channel.bind(`user-${profile.id}`, function (payload) {
+    //         // toastr[`${payload.status}`](`${payload.message}`,'Thông báo');
+    //         swal(`${payload.message}`, `${payload.status}`);
+    //     });
+    // }
 
     $('[data-toggle="tooltip"]').tooltip();
     $("form[submit-ajax=VIP]").submit(function (e) {

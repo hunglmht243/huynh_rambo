@@ -48,7 +48,10 @@
                               <a href="/adm/momo/history-transaction" class="nav-link">Lịch sử giao dịch</a>
                           </li>
                           <li class="nav-item">
-                              <a href="/adm/momo/send-money" class="nav-link">Chuyển tiền</a>
+                              <a href="/adm/momo/send-money" class="nav-link">Chuyển tiền momo</a>
+                          </li>
+                          <li class="nav-item">
+                              <a href="/adm/momo/send-bank" class="nav-link">Chuyển tiền bank</a>
                           </li>
                       </ul>
                   </div>

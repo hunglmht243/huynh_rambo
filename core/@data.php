@@ -178,6 +178,7 @@ class VIP
             $sql .= "$key = '".mysqli_real_escape_string($this->cn, $value)."',";
         }
         $sql = 'UPDATE '.$table. ' SET '.trim($sql, ',').' WHERE '.$where;
+        //echo('haha'.$sql);
         return mysqli_query($this->cn, $sql);
     }
     }

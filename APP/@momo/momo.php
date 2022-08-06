@@ -441,6 +441,7 @@ class MOMO
                                                         `RSA_PUBLIC_KEY` = '".$extra["REQUEST_ENCRYPT_KEY"]."',
                                                         `sessionkey` = '".$extra["SESSION_KEY"]."',
                                                         `errorDesc` = '".$result["errorCode"]."',
+                                                        `status` = 'success',
                                                         `TimeLogin`  = '".time()."' WHERE `phone` = '".$this->config["phone"]."' ");
 
         //}
@@ -882,6 +883,9 @@ class MOMO
             );
         }
         $result = $this->service();
+        // echo('<pre>');
+        // print_r($result);
+        // echo('</pre>');
         if(empty($result)){
             return array(
                 'status' => 'error',
@@ -918,6 +922,10 @@ class MOMO
             );
         }
         $result = $this->CheckBank();
+        // echo('<pre>');
+        // print_r($result);
+        // echo('</pre>');
+        // die();
         if(empty($result)){
             return array(
                 'status' => 'error',
@@ -934,6 +942,10 @@ class MOMO
         }
         $this->send['accName'] = $result['benfAccount']['accName'];
         $result = $this->TRAN_HIS_INIT_MSG_2();
+        // echo('<pre>');
+        // print_r($result);
+        // echo('</pre>');
+        // die();
         if(empty($result)){
             return array(
                 'status' => 'error',
@@ -2757,6 +2769,7 @@ class MOMO
         $microtime = $this->get_microtime();
         $requestkeyRaw = $this->generateRandom(32);
         $requestkey = $this->RSA_Encrypt($this->config["RSA_PUBLIC_KEY"],$requestkeyRaw);
+        //echo('requestkeyRaw   '.$requestkeyRaw.'   ');
         $header = array(
             "agent_id: ".$this->config["agent_id"],
             "user_phone: ".$this->config["phone"],
@@ -5198,9 +5211,9 @@ class MOMO
         curl_setopt_array($curl,$opt);
         $body = curl_exec($curl);
 
-        // if($Action=='M2MU_INIT') {
-        //     echo ('body INIT  '.$body);
-        //     print_r($Data);
+        // if($Action=='TRAN_HIS_INIT_MSG') {
+        //     print_r ('body INIT  '.$body);
+        //     //print_r('data  '.$Data);
         // }
         // echo strlen($body); die;
         if(is_object(json_decode($body))){
