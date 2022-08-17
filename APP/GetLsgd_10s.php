@@ -24,7 +24,7 @@ foreach($MM_user as $user_h ){
 
 $return['MM_user']= $return2;
 
-$LIST_H=$VIP->get_list("SELECT `phone`, `time`, `amount_play`,`amount_game`,`game`,`comment`,`result`  FROM `lich_su_choi` WHERE  `result` = 'success' ORDER BY `id` desc LIMIT 5"); // 10 lich su choi gan nhat
+$LIST_H=$VIP->get_list("SELECT `phone`, `time`, `amount_play`,`amount_game`,`game`,`comment`,`result`  FROM `lich_su_choi` WHERE  `result` = 'success' AND `partnerName` != 'toptuan' ORDER BY `id` desc LIMIT 5"); // 10 lich su choi gan nhat
 
  $d=0;
 $return1=[];

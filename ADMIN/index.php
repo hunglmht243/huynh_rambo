@@ -1,5 +1,3 @@
-
-
 <?php
 require('public/head.php'); 
 require('public/nav.php'); 
@@ -37,9 +35,9 @@ $month_old = date('Y-m-d H:i:s',strtotime('-30 day',strtotime($now_time)));
                                     </div>
                                 </div>
                                 <div class="mb-0 text-sm">
-                                    <span class="text-nowrap d-block">Tổng nhận: <?=format_money($VIP->get_row("SELECT SUM(`amount_play`) FROM `lich_su_choi` WHERE `result_text` != 'SAI NỘI DUNG' AND `time` >= '$time_day'  ")['SUM(`amount_play`)']);?>đ</span>
+                                    <span class="text-nowrap d-block">Tổng nhận: <?=format_money($VIP->get_row("SELECT SUM(`amount_play`) FROM `lich_su_choi` WHERE `result_text` != 'SAI NỘI DUNG' AND `time` >= '$time_day' AND `tranId` !='' AND `comment` !='' ")['SUM(`amount_play`)']);?>đ</span>
                                     <span class="text-nowrap d-block">Tổng trừ: <?=format_money($VIP->get_row("SELECT SUM(`amount`) FROM `chuyen_tien` WHERE `type_gd` = 'game' AND `date_time` >= '$time_day'  ")['SUM(`amount`)']);?>đ</span>
-                                    <span class="text-nowrap d-block">Doanh thu: <?=format_money($VIP->get_row("SELECT SUM(`amount_play`) FROM `lich_su_choi` WHERE `result_text` != 'SAI NỘI DUNG' AND `time` >= '$time_day'  ")['SUM(`amount_play`)'] - $VIP->get_row("SELECT SUM(`amount`) FROM `chuyen_tien` WHERE `type_gd` = 'game' AND `date_time` >= '$time_day'  ")['SUM(`amount`)']);?>đ</span>
+                                    <span class="text-nowrap d-block">Doanh thu: <?=format_money($VIP->get_row("SELECT SUM(`amount_play`) FROM `lich_su_choi` WHERE `result_text` != 'SAI NỘI DUNG' AND `time` >= '$time_day' AND `tranId` !='' AND `comment` !='' ")['SUM(`amount_play`)'] - $VIP->get_row("SELECT SUM(`amount`) FROM `chuyen_tien` WHERE `type_gd` = 'game' AND `date_time` >= '$time_day'  ")['SUM(`amount`)']);?>đ</span>
                                 </div>
                             </div>
                         </div>
@@ -59,9 +57,9 @@ $month_old = date('Y-m-d H:i:s',strtotime('-30 day',strtotime($now_time)));
                                     </div>
                                 </div>
                                 <div class="mb-0 text-sm">
-                                    <span class="text-nowrap d-block">Tổng nhận: <?=format_money($VIP->get_row("SELECT SUM(`amount_play`) FROM `lich_su_choi` WHERE  `result_text` != 'SAI NỘI DUNG' AND `time` >= '$week_old' AND `time` < '$now_time'  ")['SUM(`amount_play`)']);?>đ</span>
+                                    <span class="text-nowrap d-block">Tổng nhận: <?=format_money($VIP->get_row("SELECT SUM(`amount_play`) FROM `lich_su_choi` WHERE  `result_text` != 'SAI NỘI DUNG' AND `time` >= '$week_old' AND `time` < '$now_time' AND `tranId` !='' AND `comment` !='' ")['SUM(`amount_play`)']);?>đ</span>
                                     <span class="text-nowrap d-block">Tổng trừ: <?=format_money($VIP->get_row("SELECT SUM(`amount`) FROM `chuyen_tien` WHERE  `type_gd` = 'game' AND `date_time` >= '$week_old' AND `date_time` < '$now_time'  ")['SUM(`amount`)']);?>đ</span>
-                                    <span class="text-nowrap d-block">Doanh thu: <?=format_money($VIP->get_row("SELECT SUM(`amount_play`) FROM `lich_su_choi` WHERE  `result_text` != 'SAI NỘI DUNG' AND `time` >= '$week_old' AND `time` < '$now_time'  ")['SUM(`amount_play`)']-$VIP->get_row("SELECT SUM(`amount`) FROM `chuyen_tien` WHERE `type_gd` = 'game' AND  `date_time` >= '$week_old' AND `date_time` < '$now_time'  ")['SUM(`amount`)']);?>đ</span>
+                                    <span class="text-nowrap d-block">Doanh thu: <?=format_money($VIP->get_row("SELECT SUM(`amount_play`) FROM `lich_su_choi` WHERE  `result_text` != 'SAI NỘI DUNG' AND `time` >= '$week_old' AND `time` < '$now_time' AND `tranId` !='' AND `comment` !='' ")['SUM(`amount_play`)']-$VIP->get_row("SELECT SUM(`amount`) FROM `chuyen_tien` WHERE `type_gd` = 'game' AND  `date_time` >= '$week_old' AND `date_time` < '$now_time'  ")['SUM(`amount`)']);?>đ</span>
                                 </div>
                             </div>
                         </div>
@@ -81,9 +79,9 @@ $month_old = date('Y-m-d H:i:s',strtotime('-30 day',strtotime($now_time)));
                                     </div>
                                 </div>
                                 <div class="mb-0 text-sm">
-                                    <span class="text-nowrap d-block">Tổng nhận:  <?=format_money($VIP->get_row("SELECT SUM(`amount_play`) FROM `lich_su_choi` WHERE  `result_text` != 'SAI NỘI DUNG' AND `time` >= '$month_old' AND `time` < '$now_time'  ")['SUM(`amount_play`)']);?>đ</span>
+                                    <span class="text-nowrap d-block">Tổng nhận:  <?=format_money($VIP->get_row("SELECT SUM(`amount_play`) FROM `lich_su_choi` WHERE  `result_text` != 'SAI NỘI DUNG' AND `time` >= '$month_old' AND `time` < '$now_time' AND `tranId` !='' AND `comment` !='' ")['SUM(`amount_play`)']);?>đ</span>
                                     <span class="text-nowrap d-block">Tổng trừ: <?=format_money($VIP->get_row("SELECT SUM(`amount`) FROM `chuyen_tien` WHERE  `type_gd` = 'game' AND `date_time` >= '$month_old' AND `date_time` < '$now_time'  ")['SUM(`amount`)']);?>đ</span>
-                                    <span class="text-nowrap d-block">Doanh thu: <?=format_money($VIP->get_row("SELECT SUM(`amount_play`) FROM `lich_su_choi` WHERE  `result_text` != 'SAI NỘI DUNG' AND `time` >= '$month_old' AND `time` < '$now_time'  ")['SUM(`amount_play`)'] - $VIP->get_row("SELECT SUM(`amount`) FROM `chuyen_tien` WHERE `type_gd` = 'game' AND `date_time` >= '$month_old' AND `date_time` < '$now_time'  ")['SUM(`amount`)']);?>đ</span>
+                                    <span class="text-nowrap d-block">Doanh thu: <?=format_money($VIP->get_row("SELECT SUM(`amount_play`) FROM `lich_su_choi` WHERE  `result_text` != 'SAI NỘI DUNG' AND `time` >= '$month_old' AND `time` < '$now_time' AND `tranId` !='' AND `comment` !='' ")['SUM(`amount_play`)'] - $VIP->get_row("SELECT SUM(`amount`) FROM `chuyen_tien` WHERE `type_gd` = 'game' AND `date_time` >= '$month_old' AND `date_time` < '$now_time'  ")['SUM(`amount`)']);?>đ</span>
                                 </div>
                             </div>
                         </div>

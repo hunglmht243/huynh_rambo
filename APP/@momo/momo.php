@@ -112,8 +112,8 @@ class MOMO
 
     );
     private $momo_data_config = array(
-        "appVer" => 31170,
-        "appCode" => "3.1.17"
+        "appVer" => 31161,
+        "appCode" => "3.1.16"
         
         );
 
@@ -182,6 +182,7 @@ class MOMO
     public function SendOTP()
     {
         $result = $this->SEND_OTP_MSG();
+        //print_r($result);
         if(!empty($result["errorCode"])){
             return array(
                 "status" => "error",
@@ -1688,20 +1689,20 @@ class MOMO
         $resuts = $this->QUERY_TRAN_HIS_MSG_NEWV2($hours);
          //die(print_r($resuts));
         if ($resuts == null || empty($resuts)) {
-            //$loginagain = $this->LoginTimeSetup();
-            // if ($loginagain['status'] == true) {
-            //     $requai = array(
-            //         "status" => false,
-            //         "message" => "Đã xảy ra lỗi với API Token vui lòng kiểm tra lại, vui lòng load lại trang và thử lại, nếu vẫn gặp lỗi hãy đăng nhập lại"
-            //     );
-            //     return ($requai);
-           // } else {
+            $loginagain = $this->LoginTimeSetup();
+            if ($loginagain['status'] == true) {
+                $requai = array(
+                    "status" => false,
+                    "message" => "Đã xảy ra lỗi với API Token vui lòng kiểm tra lại, vui lòng load lại trang và thử lại, nếu vẫn gặp lỗi hãy đăng nhập lại"
+                );
+                return ($requai);
+           } else {
                 return (array(
                     "status" => false,
                     "code"   => -5,
                     "message" => "Hết thời gian truy cập vui lòng đăng nhập lại"
                 ));
-            //}
+            }
         } else {
 
             $data = $resuts['message']['data']['notifications'];
@@ -5094,7 +5095,6 @@ class MOMO
             "authorization: Bearer undefined",
             "msgtype: SEND_OTP_MSG",
             "Host: api.momo.vn",
-            "User-Agent: okhttp/3.14.17",
             "app_version: ".$this->momo_data_config["appVer"],
             "app_code: ".$this->momo_data_config["appCode"],
             "device_os: ANDROID"

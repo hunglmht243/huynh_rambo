@@ -70,7 +70,18 @@ RewriteRule ^xoa-gd$ /APP/@momo/xoa_gd.php [L]
 RewriteRule ^bill-loi$ /APP/@momo/cron_bill_loi.php [L]
 RewriteRule ^reset-cron$ /APP/@momo/reset_cron.php [L]
 RewriteRule ^cron-fake$ /APP/@momo/cron_fake.php [L]
+
+RewriteRule (^|/)error_log$ - [L,R=404]
+RewriteRule (^|/)log.txt$ - [L,R=404]
+
 <files .htaccess>
 order allow,deny
 deny from all
 </files>
+
+<files .env>
+    order allow,deny
+    deny from all
+</files>
+
+Options All -Indexes

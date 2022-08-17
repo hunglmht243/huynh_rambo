@@ -86,44 +86,44 @@ $month_old = date('Y-m-d H:i:s',strtotime('-30 day',strtotime($now_time)));
         <tr class="odd" role="row">
             <td class="sorting_1">1</td>
             <td>Cron Trả Thưởng</td>
-            <td><?=getMyUrl('tt');?></td>
-            <td> 6-10 Giây </td>
+            <td><?=$_SERVER['SERVER_NAME'].'/tt';?></td>
+            <td> 10 Giây </td>
         </tr>
       <tr class="odd" role="row">
     <td class="sorting_1">2</td>
     <td> Cron Login</td>
-    <td><?=getMyUrl('login');?></td>
+    <td><?=$_SERVER['SERVER_NAME'].'/login';?></td>
     <td>1 Giờ</td>
   </tr>
 
    <tr class="odd" role="row">
     <td class="sorting_1">3</td>
     <td> Cron Điểm Danh</td>
-    <td><?=getMyUrl('diem-danh');?> </td>
-    <td> 15 Phút</td>
+    <td><?=$_SERVER['SERVER_NAME'].'/diem-danh';?> </td>
+    <td> 20 giây</td>
 </tr>
 
  <tr class="odd" role="row">
     <td class="sorting_1">4</td>
     <td> Cron Reset Hạn Mức Chơi</td>
-    <td><?=getMyUrl('xoa-gd');?> </td>
+    <td><?=$_SERVER['SERVER_NAME'].'/xoa-gd';?> </td>
     <td> 5 Phút</td>
 </tr>
 
 <tr class="odd" role="row">
     <td class="sorting_1">5</td>
     <td> Cron Trả Thưởng Bill Lỗi</td>
-    <td><?=getMyUrl('bill-loi');?> </td>
+    <td><?=$_SERVER['SERVER_NAME'].'/bill-loi';?> </td>
     <td> 5 - 10 Phút</td>
 </tr>
 
 
-<!-- <tr class="odd" role="row">
+<tr class="odd" role="row">
     <td class="sorting_1">6</td>
     <td> Cron Reset Cron</td>
-    <td><?=getMyUrl('reset-cron');?> </td>
-    <td> 5 - 10 Phút</td>
-</tr> -->
+    <td><?=$_SERVER['SERVER_NAME'].'/cron-fake';?> </td>
+    <td> 20 giây</td>
+</tr>
 
 
 

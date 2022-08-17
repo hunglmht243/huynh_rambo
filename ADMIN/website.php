@@ -1,4 +1,3 @@
-
 <?php
 require('public/head.php'); 
 require('public/nav.php'); 

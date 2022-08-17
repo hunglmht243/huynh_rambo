@@ -1,4 +1,3 @@
-
 <?php
 require('public/head.php'); 
 require('public/nav.php'); 
@@ -22,7 +21,7 @@ require('public/nav.php');
                         <input class="form-control" name="money" type="number" placeholder="10000">
                     </div>
                     <div class="form-group">
-                        <label for="example-text-input" class="form-control-label">Giới Hạn Số Có Thể Nhập Giftcode</label>
+                        <label for="example-text-input" class="form-control-label">Giới Hạn Số Lần Nhập Giftcode</label>
                         <input class="form-control" name="limit" type="number" placeholder="Giới Hạn">
                     </div>
 

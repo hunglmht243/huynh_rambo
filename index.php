@@ -201,14 +201,10 @@ $timecount = strtotime($diemdanh_phien['time_next']) - strtotime(date("Y-m-d H:i
                     </button>
                 <a class="navbar-brand navbar-brand-image" href="index.html">
                     <div class="hidden-xs">
-                        <img src="<?=$VIP->site('logo');?>" style="margin-top: -5px;
-                                margin-bottom: 10px;
-                                width: 250px;" alt="clmm Logo">
+                        <img src="<?=$VIP->site('logo');?>" style=" margin-top: -63px;  margin-bottom: 10px;width: 152px;" alt="clmm Logo">
                     </div>
                     <div class="visible-xs">
-                        <img src="<?=$VIP->site('logo');?>" style="margin-top: -0px;
-                                /* margin: 13px; */
-                                width: 200px;" alt="clmm Logo">
+                     <img src="<?=$VIP->site('logo');?>" style="margin-top: -40px;/* margin: 13px; */ width: 97px" alt="clmm Logo">
                     </div>
                 </a>
             </div>
@@ -265,7 +261,8 @@ $timecount = strtotime($diemdanh_phien['time_next']) - strtotime(date("Y-m-d H:i
                     <button class="btn btn-default" server-action="change" server-id="456456" server-rate="456456"> Nhiệm Vụ Ngày <p style="</button"></p></button>
                     <?php }?>
                     <button class="btn btn-default" server-action="change" server-id="789789" server-rate="789789"> Nhập Code Nhận Quà <p style="</button"></p></button>
-                    </div>
+                    <!-- <button class="btn btn-default" server-action="change" server-id="abc" server-rate="abc"> abc <p style="</button"></p></button>     -->
+                </div>
 
 
                     <div class="row justify-content-md-center box-cl">
@@ -384,7 +381,7 @@ $timecount = strtotime($diemdanh_phien['time_next']) - strtotime(date("Y-m-d H:i
                     <div class="text-center">
                         <p style="line-height: 0.8;"></p>
                         <p style="font-size:120%;text-align:center;"><b>CODE KHUYẾN MẠI</b></p>
-                        <div class="form-group" id="non_query" style="background-color: #7ee2ff; border-color: #ad4105; padding: 20px;">
+                        <div class="form-group" id="non_query" style="background-color: #f5f5f5; border-color: #ad4105; padding: 20px;">
                             <form role="form" id="nhap_gifcode" method="" >
                                 <input type="hidden" name="_token" value="tQywbI2ywgTXeQVFS0xx4khDk6Mkur799J4WdkHy">                                <label for="partnerId">Mã code:</label>
                                 <input type="text" class="form-control" name="giftcode" id="giftcode" placeholder="ABCXYZ">
@@ -399,7 +396,7 @@ $timecount = strtotime($diemdanh_phien['time_next']) - strtotime(date("Y-m-d H:i
                              <div id="result-gif" style="margin-top: 5px;"></div>
                         </div>
 
-                        <div class="occho" id="fsdf">
+                        <div class="occho" id="fsdf" style="text-align: left;">
                             1. Một số điện thoại chỉ được nhập 1 mã/ngày. <br>
                             2. Mã code khuyến mại sẽ tùy vào điều kiện để sử dụng, có thời hạn. <br>
                             3. Mã code khuyến mại sẽ được cấp theo các chương trình khuyến mại của hệ thống <?=$VIP->site('title');?>. <br>
@@ -410,6 +407,9 @@ $timecount = strtotime($diemdanh_phien['time_next']) - strtotime(date("Y-m-d H:i
             </div>
         </div>
     </div>
+
+    <!-- <div class="panel-body turn" turn-tab="abc" style="padding-top: 0px;">fsdfsdf</div> -->
+
     
     <div class="panel-body turn" turn-tab="010000" style="padding-top: 0px;">
         <style>
@@ -609,7 +609,7 @@ $timecount = strtotime($diemdanh_phien['time_next']) - strtotime(date("Y-m-d H:i
                         Lịch sử thắng
                     </h3>
                 </div>
-                <h5 style="color:black;font-weight: bold;text-align:center;" id="timer">(Cập nhật liên tục) <img src="https://clmm.azmmo.me/assets/images/loading_ab.jpeg" width="23px">
+                <h5 style="color:black;font-weight: bold;text-align:center;" id="timer">(Cập nhật liên tục) <img src="/assets/img/loading_ab.jpeg" width="23px">
                 </h5>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover text-center" id="0X2134X453">
@@ -740,7 +740,7 @@ $timecount = strtotime($diemdanh_phien['time_next']) - strtotime(date("Y-m-d H:i
         <div class="container text-center">
             <div class="row">
                 <div class="col-xs-12">
-                    <img src="<?=$VIP->site('logo');?>" alt="logo-footer" width="150px">
+                    <img src="<?=$VIP->site('logo');?>" alt="logo-footer" width="100px">
                 </div>
                 <div class="col-xs-12 text-white ">
                     Copyright 2022 © <a style="color: white;" href=""><?=strtoupper($_SERVER['SERVER_NAME']);?></a>
@@ -1097,7 +1097,7 @@ timeleft_10s -= 1;
             left: 0;
             right: 0;
             text-align: center;
-            font-size: 9px;"><font color="green">`+Intl.NumberFormat().format(ds_phone[key].today)+`</font>/<font color="6861b1">30M</font>|<font color="green">`+ds_phone[key].today_gd+`</font>/<font color="6861b1">150</font></b></b> <span style="margin-left: 11px" class="label label-success text-uppercase" onclick="coppy('`+key+`',`+ds_phone[key].min+`,`+ds_phone[key].max+`)"><i class="fa fa-clipboard" aria-hidden="true"></i></span> </td>
+            font-size: 9px;"><font color="green">`+Intl.NumberFormat().format(ds_phone[key].today)+`</font>/<font color="6861b1">30M</font>|<font color="green">`+ds_phone[key].today_gd+`</font>/<font color="6861b1">150</font></b></b> <span style="margin-left: 11px" class="label label-success text-uppercase" onclick="coppy('`+key+`','`+ds_phone[key].min+`','`+ds_phone[key].max+`')"><i class="fa fa-clipboard" aria-hidden="true"></i></span> </td>
                                 
                                     
                                     <td>`+ds_phone[key].min+`</td>

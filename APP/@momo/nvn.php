@@ -65,7 +65,9 @@ if($cashchoi < $moc1){
 }elseif($cashchoi >= $moc1 && $dem1 == 0){
         $from = $VIP->get_row(" SELECT * FROM `cron_momo` WHERE `BALANCE` >= '".$thuong1."'  AND   `status` = 'success' ORDER BY RAND() ");
         $result_pay = $momo->LoadData($from['phone'])->SendMoney($sdtchoi,$thuong1,$comment1);
-        if($result_pay['full']){
+        //echo('fasdf');
+        //print_r($result_pay);
+        //if($result_pay['full']){
             $data_chuyen_tien = $result_pay['full'];
             $SEND_BILL = $VIP->insert("chuyen_tien", [
                      'momo_id'  =>   $result_pay["tranDList"]["ID"],
@@ -84,7 +86,7 @@ if($cashchoi < $moc1){
                     
                      'time' => time()
                       ]);   
-        }
+        //}
         
         
   if($result_pay['status'] == 'success'){   
