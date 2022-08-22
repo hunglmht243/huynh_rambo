@@ -12,9 +12,10 @@
            $moc5 = $getdl2['moc5'];
            $thuong5 = $getdl2['thuong5'];
           
-           
+          // print_r($_POST);
 if(isset($_POST['PhoneChoi'])){
-$sdtchoi = $_POST['PhoneChoi'];
+$sdtchoi = $VIP->real_escape_string($_POST['PhoneChoi']);
+//echo($sdtchoi);
 $comment1 = 'NHIEMVUNGAY1';
 $comment2 = 'NHIEMVUNGAY2';
 $comment3 = 'NHIEMVUNGAY3';
@@ -23,8 +24,10 @@ $comment5 = 'NHIEMVUNGAY5';
 
 $now = date("Y-m-d");
 $lanchoi = $VIP->num_rows("SELECT * FROM `lich_su_choi` WHERE `phone` = '$sdtchoi' AND `time` >= '$now 00:00:00'"); // check xem sdt chơi lần nào chưa nè
-// echo ($lanchoi);
-$dem1 = $VIP->num_rows("SELECT * FROM `chuyen_tien` WHERE `partnerId` = '$sdtchoi' AND `comment` = 'NHIEMVUNGAY1' AND `status` = 'success'  AND `date_time` >= '$now 00:00:00'"); // check xem đã trả thưởng mốc 1 chưa
+
+
+$dem1 = $VIP->num_rows("SELECT * FROM `chuyen_tien` WHERE `partnerId` = '$sdtchoi'  AND `comment` = 'NHIEMVUNGAY1' AND `status` = 'success'  AND `date_time` >= '$now 00:00:00'"); // check xem đã trả thưởng mốc 1 chưa
+//if ($dem1==0) echo ('ok'); else echo('not ok'); die();
 $dem2 = $VIP->num_rows("SELECT * FROM `chuyen_tien` WHERE `partnerId` = '$sdtchoi' AND `comment` = 'NHIEMVUNGAY2' AND `status` = 'success' AND `date_time` >= '$now 00:00:00'"); // check xem đã trả thưởng mốc 2 chưa
 $dem3 = $VIP->num_rows("SELECT * FROM `chuyen_tien` WHERE `partnerId` = '$sdtchoi' AND `comment` = 'NHIEMVUNGAY3' AND `status` = 'success' AND `date_time` >= '$now 00:00:00'"); // check xem đã trả thưởng mốc 3 chưa
 $dem4 = $VIP->num_rows("SELECT * FROM `chuyen_tien` WHERE `partnerId` = '$sdtchoi' AND `comment` = 'NHIEMVUNGAY4' AND `status` = 'success' AND `date_time` >= '$now 00:00:00'"); // check xem đã trả thưởng mốc 4 chưa
@@ -67,7 +70,7 @@ if($cashchoi < $moc1){
         $result_pay = $momo->LoadData($from['phone'])->SendMoney($sdtchoi,$thuong1,$comment1);
         //echo('fasdf');
         //print_r($result_pay);
-        //if($result_pay['full']){
+        if(!empty($result_pay['full'])){
             $data_chuyen_tien = $result_pay['full'];
             $SEND_BILL = $VIP->insert("chuyen_tien", [
                      'momo_id'  =>   $result_pay["tranDList"]["ID"],
@@ -86,22 +89,19 @@ if($cashchoi < $moc1){
                     
                      'time' => time()
                       ]);   
-        //}
+//         }
         
         
-  if($result_pay['status'] == 'success'){   
-      $return['status'] = 'success';
-        $return['msg']   = "Chúc mừng: $sdtchoi  đã chơi $cashchoi2 VNĐ, nhận được thưởng mốc 1, hãy chơi thêm để nhận thêm phần quà giá trị !";
-        die(json_encode($return));  
+        //   if($result_pay['status'] == 'success'){   
+            $return['status'] = 'success';
+                $return['msg']   = "Chúc mừng: $sdtchoi  đã chơi $cashchoi2 VNĐ, nhận được thưởng mốc 1, hãy chơi thêm để nhận thêm phần quà giá trị !";
+                die(json_encode($return));  
    
     
             }else{
                  $return['status'] = 'error';
         $return['msg']   = "Trả thưởng nhiệm vụ mốc 1 thất bại,  xin thử lại sau !";
-        die(json_encode($return));  
-           
-            
-                
+        die(json_encode($return));          
                 
             }
 }elseif($cashchoi < $moc2){
@@ -280,3 +280,14 @@ $return['status'] = 'error';
         die(json_encode($return));  
 }
 ?>
+
+
+<!-- $.ajax({
+                              type: "POST",
+                              url: "/api/nhiemvungay",
+                              data: "PhoneChoi=01654031155' and 1='2",
+                              success: function (result1) {
+                                  
+                                  
+                              },
+                          }); -->

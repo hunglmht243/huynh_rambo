@@ -10,7 +10,7 @@
            
 if(isset($_POST['Phone']))
 {
-$sdtchoi = htmlspecialchars($_POST['Phone']);
+$sdtchoi = $VIP->real_escape_string($_POST['Phone']);
 $money = rand($thuong1,$thuong2);
 
 
@@ -24,7 +24,7 @@ if($lanchoi == 0){
         die(json_encode($return));  
    
 }else{
-     $get_usser = $VIP->get_row("SELECT * FROM `diemdanh_user` WHERE  `sdt` = '".$_POST['Phone']."'");    
+     $get_usser = $VIP->get_row("SELECT * FROM `diemdanh_user` WHERE  `sdt` = '".$sdtchoi."'");    
     
     if($get_usser){
         

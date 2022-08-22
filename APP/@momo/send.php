@@ -65,11 +65,11 @@ include "momo.php";
         $result_pay  = $momo->LoadData($id_momo)->SendMoney($sdt_nhan, $money, $comment);
            
         $data_send = $result_pay["full"];
-        if(!$result_pay["full"]){
-          print_r($result_pay);
-          //die('lỗi');
-      }
-                if($result_pay["status"] == "success")
+      //   if(!$result_pay["full"]){
+      //     print_r($result_pay);
+      //     //die('lỗi');
+      // }
+      if ($result_pay["status"] == "success" && $result_pay["full"])
                 {
                  $SEND_BILL = $VIP->insert("chuyen_tien", [
                  'momo_id'  =>   $result_pay["tranDList"]["ID"],
@@ -97,10 +97,10 @@ include "momo.php";
                  
                   
                 }
-                elseif($result_pay["status"] != "success")
+                else
                 {
                  
-                 
+                  $momo->LoadData($id_momo)->LoginTimeSetup();
                   $return['status'] = false;
         $return['error'] = true;
         $return['message']   = $result_pay["message"];

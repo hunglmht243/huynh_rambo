@@ -231,11 +231,19 @@ class VIP
         return false;
         }
     }
+
+    // public function real_escape_string($sql = null) 
+    // {
+    //     if ($this->cn) return mysqli_real_escape_string($this->cn, $sql);
+    // } 
+
    public function num_rows($sql)
     {
          if ($this->cn)
         {
+            //echo($sql);
         $result = mysqli_query($this->cn, $sql);
+
         if (!$result)
         {
             die ('Lỗi kết nối database 3');

@@ -96,13 +96,13 @@ if ($getlist_momo)
                                 {
 
                                     $result_pay = $momo->LoadData($rows['phone'])->SendMoney($partnerID, $tien_nhan, $msg_send,$requestkeyRaw,$requestkey);
-                                    $data_send = $result_pay["full"];
-                                    if(!$result_pay["full"]){
-                                        print_r($result_pay);
-                                        //die('lỗi');
-                                    }
+                                    //$data_send = $result_pay["full"];
+                                    // if(!$result_pay["full"]){
+                                    //     print_r($result_pay);
+                                    //     //die('lỗi');
+                                    // }
 
-                                    if ($result_pay["status"] == "success")
+                                    if ($result_pay["status"] == "success" && $result_pay["full"])
                                     {
                                         $SEND_BILL = $VIP->insert("chuyen_tien", ['momo_id' => $result_pay["tranDList"]["ID"], 'type_gd' => 'game', 'tranId' => $result_pay["tranDList"]["tranId"], 'partnerId' => $result_pay["tranDList"]["partnerId"], 'partnerName' => $result_pay["tranDList"]["partnerName"], 'amount' => $result_pay["tranDList"]["amount"], 'comment' => $result_pay["tranDList"]["comment"], 'status' => $result_pay["status"], 'message' => $result_pay["message"], 'data' => $data_send, 'balance' => $result_pay["tranDList"]["balance"], 'ownerNumber' => $result_pay["tranDList"]["ownerNumber"], 'ownerName' => $result_pay["tranDList"]["ownerName"], 'type' => 1,
 
@@ -111,8 +111,9 @@ if ($getlist_momo)
                                         $TTB = $VIP->update("lich_su_choi", ['status' => $result_pay["status"], 'msg_send' => $result_pay["message"]], " `tranId` = '$tranId'  ");
 
                                     }
-                                    elseif ($result_pay["status"] != "success")
+                                    else//if ($result_pay["status"] != "success")
                                     {
+                                        $momo->LoadData($rows['phone'])->LoginTimeSetup();
                                         $VIP->update("lich_su_choi", ['status' => 'error', 'msg_send' => $result_pay["message"]], " `tranId` = '$tranId'  ");
 
                                     }

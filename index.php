@@ -196,15 +196,21 @@ $timecount = strtotime($diemdanh_phien['time_next']) - strtotime(date("Y-m-d H:i
     <div class="navbar">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <i class="fa fa-bars"></i>
-                    </button>
+                    </button> -->
                 <a class="navbar-brand navbar-brand-image" href="index.html">
-                    <div class="hidden-xs">
-                        <img src="<?=$VIP->site('logo');?>" style=" margin-top: -63px;  margin-bottom: 10px;width: 152px;" alt="clmm Logo">
+                <div class="hidden-xs">
+                    <!-- <img src="/assets/img/logo.png"  -->
+                    <img src="<?=$VIP->site('logo')? $VIP->site('logo') : "/assets/img/logo.png";?>"                                                             
+                        style="margin-top: -5px;
+                                margin-bottom: 10px;
+                                width: 100px;" alt="clmm Logo">
                     </div>
                     <div class="visible-xs">
-                     <img src="<?=$VIP->site('logo');?>" style="margin-top: -40px;/* margin: 13px; */ width: 97px" alt="clmm Logo">
+                     <img src="<?=$VIP->site('logo')? $VIP->site('logo') : "/assets/img/logo.png";?>" style="margin-top: -14px;
+                                /* margin: 13px; */
+                                width: 94px;" alt="clmm Logo">
                     </div>
                 </a>
             </div>
@@ -740,7 +746,7 @@ $timecount = strtotime($diemdanh_phien['time_next']) - strtotime(date("Y-m-d H:i
         <div class="container text-center">
             <div class="row">
                 <div class="col-xs-12">
-                    <img src="<?=$VIP->site('logo');?>" alt="logo-footer" width="100px">
+                    <img src="<?=$VIP->site('logo')? $VIP->site('logo') : "/assets/img/logo.png";?>" alt="logo-footer" width="100px">
                 </div>
                 <div class="col-xs-12 text-white ">
                     Copyright 2022 © <a style="color: white;" href=""><?=strtoupper($_SERVER['SERVER_NAME']);?></a>

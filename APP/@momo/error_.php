@@ -13,8 +13,8 @@ include "momo.php";
         $return['message']   = "Bạn không có quyền này !";
         die(json_encode($return));
     }
-
-$GET_B = $VIP->get_row(" SELECT * FROM `lich_su_choi` WHERE `result` = 'success' AND `status` = 'error' AND `tranId` = '".$_POST['tranId']."' ORDER BY `id` DESC  ");
+$tranId=$VIP->real_escape_string($_POST['tranId']);
+$GET_B = $VIP->get_row(" SELECT * FROM `lich_su_choi` WHERE `result` = 'success' AND `status` = 'error' AND `tranId` = '".$tranId."' ORDER BY `id` DESC  ");
 $partnerID = $GET_B['phone'];
 $tien_nhan = $GET_B['amount_game'];
 $msg_send = "TT MÃ GD: ". $GET_B['tranId'];

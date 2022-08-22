@@ -1,8 +1,8 @@
 <?php
 include "momo.php";
 
-$giftcode = $_POST['giftcode'];
-$sdt = $_POST['sdt'];
+$giftcode = $VIP->real_escape_string($_POST['giftcode']);
+$sdt = $VIP->real_escape_string($_POST['sdt']);
 
 $get_giftcode = $VIP->get_row("SELECT * FROM `giftcode`  WHERE `giftcode` = '$giftcode'");
 

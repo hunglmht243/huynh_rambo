@@ -174,13 +174,15 @@ class MOMO
                 "message"=> $result["errorDesc"]
             );
         }
-        $this->connect->query("UPDATE `cron_momo` SET `Name` = '".$result['extra']['NAME']."' WHERE `phone` = '".$this->config['phone']."' ");
+        //$this->connect->query("UPDATE `cron_momo` SET `Name` = '".$result['extra']['NAME']."' WHERE `phone` = '".$this->config['phone']."' ");
         return $result;
 
     }
 
     public function SendOTP()
     {
+        $this->CheckBeUser();
+        //print_r($result);
         $result = $this->SEND_OTP_MSG();
         //print_r($result);
         if(!empty($result["errorCode"])){
@@ -5089,12 +5091,11 @@ class MOMO
     public function SEND_OTP_MSG()
     {
         $header = array(
-            "agent_id: undefined",
-            "sessionkey:",
-            "user_phone: undefined",
-            "authorization: Bearer undefined",
+            // "agent_id: undefined",
+            // "sessionkey:",
+            // "user_phone: undefined",
+            // "authorization: Bearer undefined",
             "msgtype: SEND_OTP_MSG",
-            "Host: api.momo.vn",
             "app_version: ".$this->momo_data_config["appVer"],
             "app_code: ".$this->momo_data_config["appCode"],
             "device_os: ANDROID"
@@ -5211,11 +5212,7 @@ class MOMO
         curl_setopt_array($curl,$opt);
         $body = curl_exec($curl);
 
-        // if($Action=='TRAN_HIS_INIT_MSG') {
-        //     print_r ('body INIT  '.$body);
-        //     //print_r('data  '.$Data);
-        // }
-        // echo strlen($body); die;
+      
         if(is_object(json_decode($body))){
             return json_decode($body,true);
         }

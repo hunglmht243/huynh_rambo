@@ -1,7 +1,7 @@
 <?php require('../core/@connect.php'); 
 
 
-        $tran_id=$_POST['tran_id'];
+        $tran_id=$VIP->real_escape_string($_POST['tran_id']);
         
         if(empty($tran_id)){
             
