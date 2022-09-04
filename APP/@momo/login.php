@@ -36,8 +36,8 @@ if (!empty($action)) {
             if (!empty($act)) {
 
                 $phonemomo = check_string($_POST['phonemomo']);
-                $passmomo = check_string($_POST['passmomo']);
-                $codeotp = check_string($_POST['codeotp']);
+                $passmomo = check_string($_POST['passmomo'])  ;
+                
 
                 if (!empty($phonemomo)) {
                     switch ($act) {
@@ -56,6 +56,7 @@ if (!empty($action)) {
                             break;
 
                         case 'veryotp':
+                            $codeotp = check_string($_POST['codeotp']) ;
                             if (!empty($codeotp)) {
                                 $requai = $momo->LoadData($phonemomo)->ImportOTP($codeotp);
                                 if ($requai['status'] == 'success') {

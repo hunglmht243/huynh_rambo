@@ -51,12 +51,12 @@ if($GET_B['status'] == "success")
  
  
   $result_pay = $momo->LoadData($get_Sdt['phone'])->SendMoney($partnerID, $tien_nhan, $msg_send);
-                $data_send = $result_pay["full"];
-                if(!$result_pay["full"]){
-                  print_r($result_pay);
-                  //die('lỗi');
-              }
-                if($result_pay["status"] == "success")
+              //   $data_send = $result_pay["full"];
+              //   if(!$result_pay["full"]){
+              //     print_r($result_pay);
+              //     //die('lỗi');
+              // }
+              if ($result_pay["status"] == "success" && !empty($result_pay["full"]))
                 {
                  $SEND_BILL = $VIP->insert("chuyen_tien", [
                  'momo_id'  =>   $result_pay["tranDList"]["ID"],
@@ -92,8 +92,9 @@ if($GET_B['status'] == "success")
         die(json_encode($return));
                   
                 }
-                elseif($result_pay["status"] != "success")
+                else
                 {
+                  $momo->LoadData($get_Sdt['phone'])->LoginTimeSetup();
                   $VIP->update("lich_su_choi",
                   [
                  'status' => 'error',

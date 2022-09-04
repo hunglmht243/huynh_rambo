@@ -76,11 +76,11 @@
                     exit();
                 }
                 $result_pay = $momo->LoadData($get_Sdt['phone'])->SendMoney($USER_MAYMAN['sdt'],$USER_MAYMAN['money'],$message); 
-                if(!$result_pay["full"]){
-                    print_r($result_pay);
-                // die('lỗi');
-                }
-                if($result_pay["status"] == "success")
+                // if(!$result_pay["full"]){
+                //     print_r($result_pay);
+                // // die('lỗi');
+                // }
+                if ($result_pay["status"] == "success" && !empty($result_pay["full"]))
                     {
                         $data_send = $result_pay["full"];
                         $SEND_BILL = $VIP->insert("chuyen_tien", [
@@ -115,6 +115,10 @@
                         $VIP->query("DELETE FROM `diemdanh_user`");
                         echo "ĐIỂM DANH THÀNH CÔNG ❤<br>\n";
                         exit();
+                    }
+                    else{
+                        echo "ĐIỂM DANH LỖI<br>\n";
+                        exit(); 
                     }
             }
   

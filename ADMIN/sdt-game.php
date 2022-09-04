@@ -133,7 +133,7 @@ require('public/nav.php');
                                         <th class="sorting" tabindex="0" aria-controls="datatable-basic" rowspan="1" colspan="1" aria-label="Mã GD: activate to sort column ascending" style="width: 81.4375px;">Min</th>
                                         <th class="sorting_asc" tabindex="0" aria-controls="datatable-basic" rowspan="1" colspan="1" aria-label="Phone nhận: activate to sort column descending" style="width: 140.5px;" aria-sort="ascending">Max</th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable-basic" rowspan="1" colspan="1" aria-label="Số tiền: activate to sort column ascending" style="width: 92px;">Game</th>
-                                       
+                                        <th class="sorting" tabindex="0" aria-controls="datatable-basic" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 67.5781px;">Action</th>                          
                                       
                                        
                                     </tr>
@@ -151,7 +151,14 @@ require('public/nav.php');
                                        <td><?=$rowls['min'];?></td>
                                        <td><?=$rowls['max'];?></td>
                                        <td><?=$rowls['ma_game'];?></td>
-                        
+                                       <td > <form submit-ajax="VIP"  action="<?=getMyUrl('adm/mini-game/update');?>" method="post" api_token="<?=$VIP->getUsers('token');?>">
+                <input type="hidden" name="_token" value="tVjXfr7sEdKf63XpMdYuGZ7wm90Bfptbq3YEq">
+            <input type="hidden" name="action" value="xoa-so-game">            <input type="hidden" name="id" value="<?=$rowls['id'];?>">                      
+                                            
+                                <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                
+                                
+                                </form></td>
                                        
                                        
                                     </tr>

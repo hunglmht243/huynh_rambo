@@ -1,7 +1,7 @@
 <?php require('../core/@connect.php'); 
 
 date_default_timezone_set('Asia/Ho_Chi_Minh');
-
+require_once(realpath($_SERVER["DOCUMENT_ROOT"]).'/vendor/autoload.php') ;
 
 if ( $_SERVER['REQUEST_METHOD'] == 'GET' && realpath(__FILE__) == realpath( $_SERVER['SCRIPT_FILENAME'] ) ) {
 
@@ -159,6 +159,75 @@ if ( $_SERVER['REQUEST_METHOD'] == 'GET' && realpath(__FILE__) == realpath( $_SE
         
 
     }
+
+
+
+    if($action=="xoa-so-game"){
+        
+    
+    
+    
+      $api_token = api_token();
+      
+       $check_admin = $VIP->get_row(" SELECT * FROM `users` WHERE `email` = '".$_SESSION['username']."'AND   `token` = '$api_token'  ");
+   
+      
+      if(empty($api_token)){
+          $return['status'] = false;
+          $return['error'] = true;
+          $return['message']   = "Thiếu API Token";
+          die(json_encode($return));
+      }
+      
+      if(!$check_admin){
+          $return['status'] = false;
+          $return['error'] = true;
+          $return['message']   = "API Token không hợp lệ";
+          die(json_encode($return));
+      }
+      
+      if(empty($_SESSION['useradmin'])){
+          $return['status'] = false;
+          $return['error'] = true;
+          $return['message']   = "Bạn không có quyền này !";
+          die(json_encode($return));
+      }
+      
+      $id     = check_string($_POST['id']);
+      if(empty($id)){
+          $return['status'] = false;
+          $return['error'] = true;
+          $return['message']   = "Vui lòng F5 !";
+          die(json_encode($return));
+      }else{
+          $_get_momo = $VIP->get_row(" SELECT * FROM `phone` WHERE `id` = '$id' ");
+          if(!$_get_momo){
+              $return['status'] = false;
+              $return['error'] = true;
+              $return['message']   = "Không có momo này !";
+              die(json_encode($return));
+          }else{
+              
+              
+                $remocve = $VIP->remove("phone", "`id` = '$id'");
+              if($remocve){
+                  $return['status'] = true;
+                  $return['error'] = false;
+                  $return['message']   = "Xóa  thành công !";
+                  die(json_encode($return));
+              }else{
+                  $return['status'] = false;
+                  $return['error'] = true;
+                  $return['message']   = "Lỗi";
+                  die(json_encode($return));
+              }
+          }
+      }
+          
+  
+      }
+
+
     
     if($action=="settings"){
         
@@ -228,7 +297,8 @@ if ( $_SERVER['REQUEST_METHOD'] == 'GET' && realpath(__FILE__) == realpath( $_SE
 
     }
   if($action=="login"){
-        if(empty(check_string($_POST['email'])) || empty(check_string($_POST['password']))){
+        // if(empty(check_string($_POST['email'])) || empty(check_string($_POST['password'])) || empty(check_string($_POST['2fa-code']))){
+          if(empty(check_string($_POST['email'])) || empty(check_string($_POST['password'])) ){
         $return['status'] = false;
         $return['error'] = true;
         $return['data'] = '<div class="alert alert-danger text-center" role="alert"><strong>Vui lòng nhập đầy đủ các trường còn thiếu!</strong></div>';
@@ -254,11 +324,12 @@ if ( $_SERVER['REQUEST_METHOD'] == 'GET' && realpath(__FILE__) == realpath( $_SE
                         $return['message']   = 'Mật khẩu bạn nhập không chính xác!';
                         die(json_encode($return));
                     }else{
-                       
-                           
-                            
-                          
-                            
+                      // $g = new \Sonata\GoogleAuthenticator\GoogleAuthenticator();
+                      //     if ($g->checkCode($_POST['2fa-secret'], $_POST['2fa-code'])) {
+                      //       $VIP->update("users", [
+                      //         '2fa' => $_POST['2fa-secret']                                                                                   
+                      //     ], " `email` = '".$_POST['email']."' ");
+
                             $_SESSION['username'] = check_string($_POST['email']);
                             $_SESSION['useradmin'] = $check_username['email'];
                            
@@ -268,6 +339,17 @@ if ( $_SERVER['REQUEST_METHOD'] == 'GET' && realpath(__FILE__) == realpath( $_SE
                             $return['data'] = '<div class="alert alert-success text-center" role="alert"><strong>Đăng nhập thành công!</strong></div>';
                             $return['message']   = 'Đăng nhập thành công!';
                             die(json_encode($return));
+                      //   } else {
+                          // $return['status'] = false;
+                          // $return['error'] = true;
+                          // $return['data'] = '<div class="alert alert-danger text-center" role="alert"><strong>Vui lòng nhập đúng 2fa code!</strong></div>';
+                          // $return['message']   = 'Vui lòng nhập đúng 2fa code!';
+                          // die(json_encode($return));
+                      //}
+                            
+                          
+                            
+                            
                         
                     }
                 }
@@ -1246,17 +1328,17 @@ if ( $_SERVER['REQUEST_METHOD'] == 'GET' && realpath(__FILE__) == realpath( $_SE
       }
       
       
-      $chanle = $_POST['ma_chan-le'];
-       $chanle2 = $_POST['ma_chan-le-2'];
-        $taixiu = $_POST['ma_tai-xiu'];
-         $taixiu2 = $_POST['ma_tai-xiu-2'];
-          $motphan3 = $_POST['ma_1-phan-3'];
-           $h3 = $_POST['ma_h3'];
-            $tong3so = $_POST['ma_tong-3-so'];
-             $doanso = $_POST['ma_doan-so'];
-              $xien = $_POST['ma_xien'];
-               $lo = $_POST['ma_lo'];
-                $g3 = $_POST['ma_g3'];
+      $chanle = $_POST['ma_chan-le'] ?? null;
+       $chanle2 = $_POST['ma_chan-le-2']?? null;
+        $taixiu = $_POST['ma_tai-xiu']?? null;
+         $taixiu2 = $_POST['ma_tai-xiu-2']?? null;
+          $motphan3 = $_POST['ma_1-phan-3']?? null;
+           $h3 = $_POST['ma_h3']?? null;
+            $tong3so = $_POST['ma_tong-3-so']?? null;
+             $doanso = $_POST['ma_doan-so']?? null;
+              $xien = $_POST['ma_xien']?? null;
+               $lo = $_POST['ma_lo']?? null;
+                $g3 = $_POST['ma_g3']?? null;
       
       
       if($chanle)

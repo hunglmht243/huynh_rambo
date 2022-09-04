@@ -48,6 +48,9 @@
                               <a href="/adm/momo/history-transaction" class="nav-link">Lịch sử giao dịch</a>
                           </li>
                           <li class="nav-item">
+                              <a href="/ADMIN/lich_su_tung_sdt.php" class="nav-link">Tổng tiền người chơi</a>
+                          </li>
+                          <li class="nav-item">
                               <a href="/adm/momo/send-money" class="nav-link">Chuyển tiền momo</a>
                           </li>
                           <li class="nav-item">
@@ -106,15 +109,15 @@
                           <li class="nav-item">
                               <a href="/adm/mini-game/chan-le" class="nav-link">Chẵn lẻ</a>
                           </li>
-                          <li class="nav-item">
+                          <!-- <li class="nav-item">
                               <a href="/adm/mini-game/tai-xiu" class="nav-link">Tài xỉu</a>
-                          </li>
+                          </li> -->
                           <li class="nav-item">
                               <a href="/adm/mini-game/chan-le2" class="nav-link">Chẵn Lẻ 2</a>
                           </li>
-                          <li class="nav-item">
+                          <!-- <li class="nav-item">
                               <a href="/adm/mini-game/tai-xiu2" class="nav-link">Tài Xỉu 2</a>
-                          </li>
+                          </li> -->
                           <li class="nav-item">
                             <a href="/adm/mini-game/1-phan-3" class="nav-link">1 Phần 3</a>
                           </li>
@@ -155,6 +158,13 @@
                       <span class="nav-link-text">Đổi mật khẩu</span>
                   </a>
               </li>
+              <!-- </li>
+                                  <li class="nav-item">
+                  <a class="nav-link" href="/adm/service/doi-mat-khau">
+                      <i class="ni ni-support-16 text-danger"></i>
+                      <span class="nav-link-text">Đổi mật khẩu</span>
+                  </a>
+              </li> -->
           </ul>
 
           </div>

@@ -182,7 +182,6 @@ class MOMO
     public function SendOTP()
     {
         $this->CheckBeUser();
-        //print_r($result);
         $result = $this->SEND_OTP_MSG();
         //print_r($result);
         if(!empty($result["errorCode"])){
@@ -754,7 +753,7 @@ class MOMO
         // echo "<pre>";
         // print('-----CHECK_USER_PRIVATE-----');
         // print_r($result);
-        // echo "<pre>";
+        // echo "<pre>";//die();
         if(!empty($result["errorCode"]) ){
             return array(
                 "status" => "error",
@@ -790,13 +789,13 @@ class MOMO
             "amount" => (int)$amount,
             "comment"=> $comment,
             "receiver"=> $receiver,
-            "partnerName"=> $result["extra"]["NAME"]
+            "partnerName"=> $result["extra"]["NAME"],
         );
         $result = $this->M2MU_INIT($requestkeyRaw,$requestkey);
         // echo "<pre>";
         // print('-----M2MU_INIT-----');
         // print_r($result);
-        // echo "<pre>";
+        // echo "<pre>";die();
         if(!empty($result["errorCode"]) && $result["errorDesc"] != "Lỗi cơ sở dữ liệu. Quý khách vui lòng thử lại sau"){
             return array(
                 "status" => "error",
@@ -4492,7 +4491,8 @@ class MOMO
             "msgtype: M2MU_INIT",
             "userid: ".$this->config["phone"],
             "requestkey: ".$requestkey,
-            "Host: owa.momo.vn"
+            "Host: owa.momo.vn",
+            // 'User-Agent:  okhttp/4.9.0',
             );
 
         $Data = array (
@@ -4559,6 +4559,33 @@ class MOMO
               'checkSum' => $this->generateCheckSum('M2MU_INIT', $microtime),
             ),
         );
+        // echo('<pre>');
+        // print_r($header);
+        // print_r($requestkeyRaw);
+        // echo('</pre>');
+        // $Data1 = $this->Encrypt_data($Data,$requestkeyRaw);
+        // print_r($Data1);//die();
+        // $curl = curl_init();
+        // echo strlen($Data); die;
+        // $header[] = 'Content-Type: application/json';
+        // $header[] = 'accept: application/json';
+        // $header[] = 'Content-Length: '.strlen($Data);
+        // $opt = array(
+        //     CURLOPT_URL =>$this->URLAction["M2MU_INIT"],
+        //     CURLOPT_RETURNTRANSFER => TRUE,
+        //     CURLOPT_POST => empty($data) ? FALSE : TRUE,
+        //     CURLOPT_POSTFIELDS => $Data,
+        //     CURLOPT_CUSTOMREQUEST => empty($data) ? 'GET' : 'POST',
+        //     CURLOPT_HTTPHEADER => $header,
+        //     CURLOPT_ENCODING => "",
+        //     CURLOPT_HEADER => FALSE,
+        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //     CURLOPT_TIMEOUT => 20,
+        // );
+        // curl_setopt_array($curl,$opt);
+        // $body = curl_exec($curl);
+        // curl_close($curl);
+        // return $body;
         return $this->CURL("M2MU_INIT",$header,$this->Encrypt_data($Data,$requestkeyRaw));
         
     }
@@ -4924,8 +4951,8 @@ class MOMO
         $header = array(
             "agent_id: ".$this->config["agent_id"],
             "user_phone: ".$this->config["phone"],
-            "sessionkey: ".(!empty($this->config["sessionkey"])) ? $this->config["sessionkey"] : "",
-            "authorization: Bearer ".$this->config["authorization"],
+            // "sessionkey: ".(!empty($this->config["sessionkey"])) ? $this->config["sessionkey"] : "",
+            // "authorization: Bearer ".$this->config["authorization"],
             "msgtype: USER_LOGIN_MSG",
             "Host: owa.momo.vn",
             "user_id: ".$this->config["phone"],
@@ -5196,16 +5223,17 @@ class MOMO
         // echo strlen($Data); die;
         $header[] = 'Content-Type: application/json';
         $header[] = 'accept: application/json';
-        $header[] = 'Content-Length: '.strlen($Data);
+        // $header[] = 'Content-Length: '.strlen($Data);
         $opt = array(
             CURLOPT_URL =>$this->URLAction[$Action],
             CURLOPT_RETURNTRANSFER => TRUE,
             CURLOPT_POST => empty($data) ? FALSE : TRUE,
+            CURLOPT_MAXREDIRS => 10,
             CURLOPT_POSTFIELDS => $Data,
             CURLOPT_CUSTOMREQUEST => empty($data) ? 'GET' : 'POST',
             CURLOPT_HTTPHEADER => $header,
-            CURLOPT_ENCODING => "",
-            CURLOPT_HEADER => FALSE,
+            CURLOPT_ENCODING => '',
+            CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_TIMEOUT => 20,
         );
@@ -5234,7 +5262,7 @@ class MOMO
         $this->rsa->loadKey($key);
         $this->rsa->setEncryptionMode(CRYPT_RSA_ENCRYPTION_PKCS1);
         if ($action =='get_his'){
-                $this->rsa->KeyPair($this->connect);
+               // $this->rsa->KeyPair($this->connect);
         }
         return $this;
     }

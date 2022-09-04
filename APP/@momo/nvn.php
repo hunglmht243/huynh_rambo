@@ -70,7 +70,7 @@ if($cashchoi < $moc1){
         $result_pay = $momo->LoadData($from['phone'])->SendMoney($sdtchoi,$thuong1,$comment1);
         //echo('fasdf');
         //print_r($result_pay);
-        if(!empty($result_pay['full'])){
+        if ($result_pay["status"] == "success" && !empty($result_pay["full"])){
             $data_chuyen_tien = $result_pay['full'];
             $SEND_BILL = $VIP->insert("chuyen_tien", [
                      'momo_id'  =>   $result_pay["tranDList"]["ID"],
@@ -99,6 +99,7 @@ if($cashchoi < $moc1){
    
     
             }else{
+                $momo->LoadData($from['phone'])->LoginTimeSetup();
                  $return['status'] = 'error';
         $return['msg']   = "Trả thưởng nhiệm vụ mốc 1 thất bại,  xin thử lại sau !";
         die(json_encode($return));          

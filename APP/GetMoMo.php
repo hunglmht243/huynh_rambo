@@ -23,10 +23,11 @@ foreach ($GAME_INFO as $row_game){
 
     $result_play = $VIP->get_list("SELECT * FROM `settings_game` WHERE `key` = '".$row_game['ma_game']."' ");
     $arr=array();
-    foreach($result_play as  $row_play) {
+    foreach($result_play as  $key=>$row_play) {
         $kq = explode(",",$row_play['result']);
-        $arr[strtoupper($row_play['comment'])]['result']= $kq;      
-        $arr[strtoupper($row_play['comment'])]['ratio']=  $row_play['tile'];
+        $arr[$key]['comment']= strtoupper($row_play['comment']);  
+        $arr[$key]['result']= $kq;      
+        $arr[$key]['ratio']=  $row_play['tile'];
     }
     $each_game['setting']=$arr;
     $return[]=$each_game;

@@ -38,7 +38,8 @@ if($lanchoi == 0){
      'sdt'    => $sdtchoi,
        'money' => $money,
       'time' => gettime(),
-      'trangthai' => 0
+      'trangthai' => 0,
+      'fake' => true
         ]
     
     );

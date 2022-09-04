@@ -1,7 +1,11 @@
 <?php
+declare(strict_types=1);
 require('../core/@connect.php'); 
+require_once(realpath($_SERVER["DOCUMENT_ROOT"]).'/vendor/autoload.php') ;
 if(isset($_SESSION['username'])){header('Location: /adm/home');exit;}
 //echo getMyUrl('adm/login/action');
+
+
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +58,7 @@ if(isset($_SESSION['username'])){header('Location: /adm/home');exit;}
       </div>
     </div>
     <!-- Page content -->
-    
+
     <div class="container mt--8 pb-5">
       <div class="row justify-content-center">
         <div class="col-lg-5 col-md-7">
@@ -79,6 +83,34 @@ if(isset($_SESSION['username'])){header('Location: /adm/home');exit;}
                     <input class="form-control" placeholder="Password" type="password" name="password" require>
                   </div>
                 </div>
+                <?php
+                    //  $admin= $VIP->get_row(" SELECT * FROM `users`");
+                    // //  print_r();die();
+                     
+                    //  if($admin['2fa']==null){
+                    //   $g = new \Sonata\GoogleAuthenticator\GoogleAuthenticator();
+                    //   $secret = $g->generateSecret();
+
+                    //   $link=  \Sonata\GoogleAuthenticator\GoogleQrUrl::generate($_SERVER['SERVER_NAME'],$secret,'clmm');
+                     ?>
+                     <!-- <p><b>Đăng kí 2fa</b></p> 
+                         <div><img src="<?=$link?>;"><br>
+                         <p><b>Mở app scan mã QR và nhập code</b></p>  
+                      <input type="hidden" name="2fa-secret"value="<?=$secret?>" >
+                      </div> -->
+                  <?php //}  ?>
+                  <!-- <div class="form-group">
+                  <div class="input-group input-group-merge input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="2fa code" type="text" name="2fa-code" require>
+                    
+                  </div>
+                </div> -->
+                   
+     
+
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary my-4">Đăng Nhập</button>
                 </div>
