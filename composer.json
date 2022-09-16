@@ -1,6 +1,0 @@
-{
-    "require": {
-        "hoa/regex": "~1.0",
-        "vlucas/phpdotenv": "^5.4"
-    }
-}
